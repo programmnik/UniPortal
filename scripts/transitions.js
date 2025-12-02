@@ -55,9 +55,8 @@ class PageTransitions {
             const href = link.getAttribute('href');
             
             // Проверяем, что это внутренняя ссылка
-            if (href && href.startsWith('#') || href.includes('javascript:')) return;
-            if (href && href.startsWith('mailto:')) return;
-            if (href && href.startsWith('tel:')) return;
+            if (href && (href.startsWith('#') || href.includes('javascript:'))) return;
+            if (href && (href.startsWith('mailto:') || href.startsWith('tel:'))) return;
             
             // Исключаем ссылки, которые открываются в новой вкладке
             if (link.target === '_blank') return;
@@ -81,7 +80,7 @@ class PageTransitions {
         // Обработка формы
         document.addEventListener('submit', (e) => {
             if (e.target.tagName === 'FORM') {
-                PageLoader.show();
+                // Прелоадер показывается в auth.js
             }
         });
     }
