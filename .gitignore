@@ -1,0 +1,30 @@
+# Системные файлы
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Временные файлы
+*.tmp
+*.temp
+
+# Логи
+*.log
+
+# Кэш
+.cache/
+
+# Конфиденциальные данные
+.env
+config.json
+secrets/
+
+# Node.js (если используете)
+node_modules/
+package-lock.json
+
+# Авто-генерируемые файлы
+dist/
+build/
