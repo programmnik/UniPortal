@@ -1,0 +1,183 @@
+/* Improved Crown Styles */
+.crown-wrapper {
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 60px;
+    z-index: 30;
+    pointer-events: none;
+}
+
+.crown-improved {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    animation: crownFloat 3s ease-in-out infinite;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+.crown-improved:hover {
+    animation: crownFloatHover 1.5s ease-in-out infinite;
+}
+
+.crown-base {
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    width: 80%;
+    height: 15px;
+    background: linear-gradient(90deg, #fbbf24, #f59e0b);
+    border-radius: 10px 10px 0 0;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+}
+
+.crown-spike {
+    position: absolute;
+    bottom: 15px;
+    width: 12px;
+    background: linear-gradient(to top, #fbbf24, #f59e0b);
+    border-radius: 3px 3px 0 0;
+    box-shadow: 0 2px 6px rgba(245, 158, 11, 0.3);
+}
+
+.crown-spike:before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 8px solid #f59e0b;
+}
+
+.spike-1 { left: 10%; height: 25px; }
+.spike-2 { left: 23%; height: 30px; }
+.spike-3 { left: 36%; height: 35px; }
+.spike-4 { left: 49%; height: 40px; }
+.spike-5 { left: 62%; height: 35px; }
+.spike-6 { left: 75%; height: 30px; }
+
+.crown-gem {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
+    z-index: 2;
+}
+
+.gem-1 {
+    top: 10px;
+    left: 25%;
+    animation: gemShine 2s ease-in-out infinite;
+}
+
+.gem-2 {
+    top: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 12px;
+    animation: gemShine 2s ease-in-out infinite 0.3s;
+}
+
+.gem-3 {
+    top: 10px;
+    left: 75%;
+    animation: gemShine 2s ease-in-out infinite 0.6s;
+}
+
+.crown-sparkle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0;
+    box-shadow: 0 0 4px white;
+}
+
+.sparkle-1 {
+    top: 15px;
+    left: 20%;
+    animation: sparkle 2s ease-in-out infinite;
+}
+
+.sparkle-2 {
+    top: 8px;
+    left: 45%;
+    animation: sparkle 2s ease-in-out infinite 0.4s;
+}
+
+.sparkle-3 {
+    top: 15px;
+    left: 70%;
+    animation: sparkle 2s ease-in-out infinite 0.8s;
+}
+
+/* Crown Animations */
+@keyframes crownFloat {
+    0%, 100% {
+        transform: translateY(0) rotate(-2deg);
+    }
+    50% {
+        transform: translateY(-10px) rotate(2deg);
+    }
+}
+
+@keyframes crownFloatHover {
+    0%, 100% {
+        transform: translateY(-5px) rotate(-3deg);
+    }
+    50% {
+        transform: translateY(-15px) rotate(3deg);
+    }
+}
+
+@keyframes gemShine {
+    0%, 100% {
+        box-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 16px rgba(59, 130, 246, 0.9);
+        transform: scale(1.1);
+    }
+}
+
+@keyframes sparkle {
+    0%, 100% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Crown hover effects */
+.crown-improved:hover .crown-base {
+    background: linear-gradient(90deg, #fcd34d, #f59e0b);
+    box-shadow: 0 4px 16px rgba(245, 158, 11, 0.6);
+}
+
+.crown-improved:hover .crown-spike {
+    background: linear-gradient(to top, #fcd34d, #f59e0b);
+    box-shadow: 0 2px 10px rgba(245, 158, 11, 0.5);
+}
+
+.crown-improved:hover .crown-gem {
+    animation-duration: 1s;
+}
+
+.crown-improved:hover .crown-sparkle {
+    animation-duration: 1s;
+}

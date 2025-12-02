@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль | UniPortal</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/profile.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Шапка (такая же как в dashboard) -->
+    <header class="header header--internal">
+        <!-- Тот же код что и в dashboard -->
+    </header>
+
+    <main class="profile-main">
+        <div class="container">
+            <div class="profile-header">
+                <h1>Настройки профиля</h1>
+                <p>Управление вашей учетной записью и настройками</p>
+            </div>
+
+            <div class="profile-content">
+                <div class="profile-sidebar">
+                    <nav class="profile-nav">
+                        <button class="nav-item active" data-tab="general">👤 Основная информация</button>
+                        <button class="nav-item" data-tab="security">🔐 Безопасность</button>
+                        <button class="nav-item" data-tab="notifications">🔔 Уведомления</button>
+                        <button class="nav-item" data-tab="appearance">🎨 Внешний вид</button>
+                    </nav>
+                </div>
+
+                <div class="profile-panels">
+                    <!-- Основная информация -->
+                    <div class="profile-panel active" id="general-panel">
+                        <h2>Основная информация</h2>
+                        <form class="profile-form">
+                            <div class="avatar-section">
+                                <div class="avatar-upload">
+                                    <div class="avatar-preview">
+                                        <div class="avatar-icon">👤</div>
+                                    </div>
+                                    <button type="button" class="avatar-change-btn">Изменить фото</button>
+                                </div>
+                            </div>
+
+                            <div class="form-grid">
+                                <div class="input-group">
+                                    <label for="username" class="form-label">Никнейм</label>
+                                    <input type="text" id="username" class="form-input" 
+                                           value="Студент_2024" placeholder="Введите ваш никнейм">
+                                    <div class="form-text">Это имя будет видно другим пользователям</div>
+                                </div>
+
+                                <div class="input-group">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" id="email" class="form-input" 
+                                           value="student@university.edu" placeholder="Введите ваш email">
+                                    <div class="form-text">Используется для входа и уведомлений</div>
+                                </div>
+
+                                <div class="input-group">
+                                    <label class="form-label">Группа</label>
+                                    <div class="group-display">ИВТ-101</div>
+                                    <div class="form-text">Группу нельзя изменить после регистрации</div>
+                                </div>
+
+                                <div class="input-group">
+                                    <label for="bio" class="form-label">О себе</label>
+                                    <textarea id="bio" class="form-input" rows="4" 
+                                              placeholder="Расскажите немного о себе..."></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn--primary">Сохранить изменения</button>
+                                <button type="button" class="btn btn--outline">Отмена</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Безопасность -->
+                    <div class="profile-panel" id="security-panel">
+                        <h2>Безопасность</h2>
+                        <div class="security-sections">
+                            <div class="security-section">
+                                <h3>Смена пароля</h3>
+                                <form class="password-form">
+                                    <div class="input-group">
+                                        <label for="currentPassword" class="form-label">Текущий пароль</label>
+                                        <input type="password" id="currentPassword" class="form-input">
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="newPassword" class="form-label">Новый пароль</label>
+                                        <input type="password" id="newPassword" class="form-input">
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="confirmPassword" class="form-label">Подтвердите пароль</label>
+                                        <input type="password" id="confirmPassword" class="form-input">
+                                    </div>
+                                    <button type="submit" class="btn btn--primary">Сменить пароль</button>
+                                </form>
+                            </div>
+
+                            <div class="security-section">
+                                <h3>Активные сессии</h3>
+                                <div class="sessions-list">
+                                    <div class="session-item">
+                                        <div class="session-info">
+                                            <div class="session-device">Chrome на Windows</div>
+                                            <div class="session-location">Москва, Россия</div>
+                                            <div class="session-time">Текущая сессия</div>
+                                        </div>
+                                        <button class="btn btn--outline btn--small">Завершить</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Уведомления -->
+                    <div class="profile-panel" id="notifications-panel">
+                        <h2>Уведомления</h2>
+                        <div class="notification-settings">
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-title">Уведомления о новых материалах</div>
+                                    <div class="setting-description">Получать уведомления о новых лекциях и заданиях</div>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-title">Уведомления о дедлайнах</div>
+                                    <div class="setting-description">Напоминания о сроках сдачи работ</div>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-title">Сообщения в чате</div>
+                                    <div class="setting-description">Уведомления о новых сообщениях</div>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Внешний вид -->
+                    <div class="profile-panel" id="appearance-panel">
+                        <h2>Внешний вид</h2>
+                        <div class="appearance-settings">
+                            <div class="theme-selector">
+                                <h3>Тема оформления</h3>
+                                <div class="theme-options">
+                                    <label class="theme-option">
+                                        <input type="radio" name="theme" value="light" checked>
+                                        <div class="theme-preview light-theme">
+                                            <div class="theme-name">Светлая</div>
+                                        </div>
+                                    </label>
+                                    <label class="theme-option">
+                                        <input type="radio" name="theme" value="dark">
+                                        <div class="theme-preview dark-theme">
+                                            <div class="theme-name">Темная</div>
+                                        </div>
+                                    </label>
+                                    <label class="theme-option">
+                                        <input type="radio" name="theme" value="auto">
+                                        <div class="theme-preview auto-theme">
+                                            <div class="theme-name">Системная</div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="scripts/profile.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="ru" class="light-theme">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет - UniPortal</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .dashboard {
+            min-height: 100vh;
+            background: var(--background-light);
+        }
+        
+        .dashboard-header {
+            background: var(--background-card);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .dashboard-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+        
+        .user-role {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+        }
+        
+        .logout-btn {
+            padding: 0.5rem 1rem;
+            background: none;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+        
+        .logout-btn:hover {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+        
+        .dashboard-content {
+            padding: 2rem 0;
+        }
+        
+        .welcome-section {
+            margin-bottom: 2rem;
+        }
+        
+        .welcome-card {
+            background: var(--background-card);
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .welcome-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .welcome-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: var(--background-card);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+        
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-lg);
+            background: rgba(59, 130, 246, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-icon i {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .module-card {
+            background: var(--background-card);
+            border-radius: var(--radius-xl);
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .module-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color);
+        }
+        
+        .module-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: var(--radius-lg);
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        
+        .module-icon i {
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .module-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .module-description {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+        
+        .module-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-decoration: none;
+        }
+        
+        .auth-required {
+            display: none;
+            text-align: center;
+            padding: 3rem;
+            background: var(--background-card);
+            border-radius: var(--radius-xl);
+            border: 2px dashed var(--border-color);
+        }
+        
+        .auth-required.show {
+            display: block;
+        }
+        
+        .auth-required i {
+            font-size: 3rem;
+            color: var(--text-tertiary);
+            margin-bottom: 1rem;
+        }
+        
+        .auth-required h2 {
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Hidden auth check -->
+        <div id="authRequired" class="auth-required">
+            <i class="fas fa-lock"></i>
+            <h2>Требуется авторизация</h2>
+            <p>Для доступа к личному кабинету необходимо войти в систему.</p>
+            <a href="login.html" class="btn btn-primary" style="margin-top: 1rem;">
+                <i class="fas fa-sign-in-alt"></i>
+                <span>Войти</span>
+            </a>
+        </div>
+        
+        <!-- Dashboard content (hidden by default) -->
+        <div id="dashboardContent" style="display: none;">
+            <!-- Header -->
+            <header class="dashboard-header">
+                <div class="container">
+                    <div class="dashboard-nav">
+                        <div class="logo">
+                            <div class="logo-icon">
+                                <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M44 4H30.6666V17.3334H17.3334V30.6666H4V44H44V4Z" fill="#136dec"></path>
+                                </svg>
+                            </div>
+                            <span class="logo-text">UniPortal</span>
+                        </div>
+                        
+                        <div class="user-menu">
+                            <div class="user-avatar" id="userAvatar">U</div>
+                            <div class="user-info">
+                                <span class="user-name" id="userName">Пользователь</span>
+                                <span class="user-role" id="userRole">Студент</span>
+                            </div>
+                            <button class="logout-btn" id="logoutBtn">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Выйти</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Main Content -->
+            <main class="dashboard-content">
+                <div class="container">
+                    <!-- Welcome Section -->
+                    <section class="welcome-section">
+                        <div class="welcome-card">
+                            <h1 class="welcome-title" id="welcomeTitle">Добро пожаловать!</h1>
+                            <p class="welcome-subtitle" id="welcomeSubtitle">Академическая платформа UniPortal</p>
+                        </div>
+                    </section>
+                    
+                    <!-- Quick Stats -->
+                    <section class="quick-stats">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="stat-value">12</div>
+                            <div class="stat-label">Активных курсов</div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div class="stat-value">94%</div>
+                            <div class="stat-label">Посещаемость</div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-tasks"></i>
+                            </div>
+                            <div class="stat-value">8</div>
+                            <div class="stat-label">Заданий на неделю</div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <div class="stat-value">3</div>
+                            <div class="stat-label">Новых сообщений</div>
+                        </div>
+                    </section>
+                    
+                    <!-- Modules Grid -->
+                    <section class="dashboard-grid">
+                        <div class="module-card" onclick="location.href='materials.html'">
+                            <div class="module-icon">
+                                <i class="fas fa-book-open"></i>
+                            </div>
+                            <h3 class="module-title">Учебные материалы</h3>
+                            <p class="module-description">Доступ ко всем лекциям, заданиям и ресурсам</p>
+                            <a href="materials.html" class="module-link">
+                                <span>Перейти</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                        
+                        <div class="module-card" onclick="location.href='schedule.html'">
+                            <div class="module-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <h3 class="module-title">Расписание</h3>
+                            <p class="module-description">Расписание пар и учебных мероприятий</p>
+                            <a href="schedule.html" class="module-link">
+                                <span>Перейти</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                        
+                        <div class="module-card" onclick="location.href='journal.html'">
+                            <div class="module-icon">
+                                <i class="fas fa-clipboard-list"></i>
+                            </div>
+                            <h3 class="module-title">Журнал посещений</h3>
+                            <p class="module-description">Учёт посещаемости и академической активности</p>
+                            <a href="journal.html" class="module-link">
+                                <span>Перейти</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                        
+                        <div class="module-card" onclick="location.href='chat.html'">
+                            <div class="module-icon">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <h3 class="module-title">Академический чат</h3>
+                            <p class="module-description">Общение с группой и преподавателями</p>
+                            <a href="chat.html" class="module-link">
+                                <span>Перейти</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                        
+                        <div class="module-card" onclick="location.href='profile.html'">
+                            <div class="module-icon">
+                                <i class="fas fa-user-cog"></i>
+                            </div>
+                            <h3 class="module-title">Профиль</h3>
+                            <p class="module-description">Настройки аккаунта и личные данные</p>
+                            <a href="profile.html" class="module-link">
+                                <span>Перейти</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                        
+                        <div class="module-card" onclick="location.href='admin.html'">
+                            <div class="module-icon">
+                                <i class="fas fa-cogs"></i>
+                            </div>
+                            <h3 class="module-title">Административная панель</h3>
+                            <p class="module-description">Управление системой (только для администраторов)</p>
+                            <a href="admin.html" class="module-link">
+                                <span>Перейти</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <script src="scripts/auth.js"></script>
+    <script>
+        // Dashboard initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication
+            if (!window.UniPortalAuth || !window.UniPortalAuth.isAuthenticated()) {
+                document.getElementById('authRequired').classList.add('show');
+                document.getElementById('dashboardContent').style.display = 'none';
+                return;
+            }
+            
+            // User is authenticated, show dashboard
+            document.getElementById('authRequired').classList.remove('show');
+            document.getElementById('dashboardContent').style.display = 'block';
+            
+            // Load user data
+            const user = window.UniPortalAuth.getCurrentUser();
+            if (user) {
+                // Update user info
+                document.getElementById('userName').textContent = user.nickname;
+                document.getElementById('userRole').textContent = getRoleName(user.role);
+                document.getElementById('welcomeTitle').textContent = `Добро пожаловать, ${user.nickname}!`;
+                document.getElementById('welcomeSubtitle').textContent = `Группа: ${user.group} | Роль: ${getRoleName(user.role)}`;
+                
+                // Set avatar initial
+                const avatar = document.getElementById('userAvatar');
+                avatar.textContent = user.nickname.charAt(0).toUpperCase();
+                
+                // Show/hide admin panel based on role
+                const adminCard = document.querySelector('.module-card:last-child');
+                if (adminCard && user.role !== 'admin') {
+                    adminCard.style.display = 'none';
+                }
+            }
+            
+            // Logout button
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                if (window.UniPortalAuth) {
+                    window.UniPortalAuth.logout();
+                }
+            });
+        });
+        
+        function getRoleName(role) {
+            const roles = {
+                'student': 'Студент',
+                'leader': 'Староста',
+                'admin': 'Администратор'
+            };
+            return roles[role] || role;
+        }
+    </script>
+    <script src="scripts/middleware.js"></script>
+</body>
+</html>

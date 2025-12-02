@@ -1,0 +1,99 @@
+.profile-main {
+    padding: 100px 0 50px;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    min-height: 100vh;
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.profile-header h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, var(--color-text) 0%, var(--color-primary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.profile-header p {
+    font-size: 1.25rem;
+    color: var(--color-text-light);
+}
+
+.profile-content {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.profile-sidebar {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(20px);
+    border-radius: var(--radius-2xl);
+    padding: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    height: fit-content;
+}
+
+.profile-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 20px;
+    border: none;
+    background: none;
+    border-radius: var(--radius-lg);
+    font-size: 1rem;
+    color: var(--color-text-light);
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: left;
+}
+
+.nav-item:hover {
+    background: var(--color-background-hover);
+    color: var(--color-text);
+}
+
+.nav-item.active {
+    background: var(--color-primary);
+    color: white;
+}
+
+.profile-panels {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(20px);
+    border-radius: var(--radius-2xl);
+    padding: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.profile-panel {
+    display: none;
+}
+
+.profile-panel.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.profile-panel h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: var(--color-text);
+}
+
+/* Стили для форм и секций... */
