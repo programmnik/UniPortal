@@ -1,515 +1,468 @@
-// Инициализация личного кабинета
-document.addEventListener('DOMContentLoaded', function() {
-    // Проверяем авторизацию
-    if (!checkAuth()) {
-        window.location.href = 'login.html';
-        return;
+// Dashboard Module - UniPortal
+class Dashboard {
+    constructor() {
+        this.init();
     }
 
-    // Загружаем данные пользователя
-    loadUserData();
-    
-    // Инициализируем взаимодействия
-    setupInteractions();
-    
-    // Инициализируем выпадающее меню
-    initProfileDropdown();
-    
-    // Инициализируем модальное окно
-    initHeadmanModal();
-});
-
-// Проверка авторизации
-function checkAuth() {
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
-    return isLoggedIn && currentUser.email;
-}
-
-// Загрузка данных пользователя
-function loadUserData() {
-    const userData = JSON.parse(localStorage.getItem('currentUser') || '{}');
-    
-    // Заполняем данные пользователя
-    if (userData.username) {
-        document.getElementById('userName').textContent = userData.username;
-        document.getElementById('welcomeName').textContent = userData.username;
-        document.getElementById('dropdownUserName').textContent = userData.username;
+    init() {
+        // Инициализация всех компонентов
+        this.initMobileMenu();
+        this.initThemeToggle();
+        this.initActiveNav();
+        this.initNotifications();
+        this.initWidgetInteractions();
+        this.loadUserData();
     }
-    
-    if (userData.group) {
-        document.getElementById('dropdownUserGroup').textContent = `Группа ${userData.group}`;
-    }
-}
 
-// Выпадающее меню профиля
-function initProfileDropdown() {
-    const profileTrigger = document.getElementById('profileTrigger');
-    const profileDropdown = document.getElementById('profileDropdown');
-    
-    if (!profileTrigger || !profileDropdown) return;
-    
-    // Открытие/закрытие выпадающего меню
-    profileTrigger.addEventListener('click', function(e) {
-        e.stopPropagation();
-        profileDropdown.classList.toggle('show');
-    });
-    
-    // Закрытие при клике вне меню
-    document.addEventListener('click', function() {
-        profileDropdown.classList.remove('show');
-    });
-    
-    // Предотвращаем закрытие при клике внутри меню
-    profileDropdown.addEventListener('click', function(e) {
-        e.stopPropagation();
-    });
-}
+    // Мобильное меню
+    initMobileMenu() {
+        const mobileNav = document.getElementById('mobile-nav');
+        const mobileNavOverlay = document.getElementById('mobile-nav-overlay');
+        const openMobileNavBtn = document.getElementById('open-mobile-nav');
+        const closeMobileNavBtn = document.getElementById('close-mobile-nav');
 
-// Модальное окно для кода старосты
-function initHeadmanModal() {
-    const headmanBtn = document.getElementById('headmanCodeBtn');
-    const modalOverlay = document.getElementById('headmanModal');
-    const cancelBtn = document.getElementById('cancelHeadmanBtn');
-    const submitBtn = document.getElementById('submitHeadmanBtn');
-    const codeInput = document.getElementById('headmanCodeInput');
-    
-    if (!headmanBtn || !modalOverlay) return;
-    
-    // Открытие модального окна
-    headmanBtn.addEventListener('click', function() {
-        modalOverlay.style.display = 'flex';
-        setTimeout(() => modalOverlay.classList.add('show'), 10);
-        codeInput.focus();
-    });
-    
-    // Закрытие модального окна
-    function closeModal() {
-        modalOverlay.classList.remove('show');
-        setTimeout(() => {
-            modalOverlay.style.display = 'none';
-            codeInput.value = '';
-        }, 300);
+        // Открыть меню
+        openMobileNavBtn.addEventListener('click', () => {
+            this.openMobileMenu(mobileNav, mobileNavOverlay);
+        });
+
+        // Закрыть меню
+        closeMobileNavBtn.addEventListener('click', () => {
+            this.closeMobileMenu(mobileNav, mobileNavOverlay);
+        });
+
+        // Закрыть по клику на оверлей
+        mobileNavOverlay.addEventListener('click', () => {
+            this.closeMobileMenu(mobileNav, mobileNavOverlay);
+        });
+
+        // Закрыть по Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                this.closeMobileMenu(mobileNav, mobileNavOverlay);
+            }
+        });
+
+        // Закрыть при клике на ссылку в мобильном меню
+        document.querySelectorAll('#mobile-nav .nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                this.closeMobileMenu(mobileNav, mobileNavOverlay);
+            });
+        });
     }
-    
-    cancelBtn.addEventListener('click', closeModal);
-    
-    // Подтверждение кода
-    submitBtn.addEventListener('click', function() {
-        const code = codeInput.value.trim();
-        if (code) {
-            // Здесь будет логика проверки кода
-            console.log('Проверка кода старосты:', code);
-            showNotification('Код отправлен на проверку!', 'success');
-            closeModal();
+
+    openMobileMenu(nav, overlay) {
+        nav.classList.add('visible');
+        overlay.classList.add('visible');
+        document.body.style.overflow = 'hidden';
+    }
+
+    closeMobileMenu(nav, overlay) {
+        nav.classList.remove('visible');
+        overlay.classList.remove('visible');
+        document.body.style.overflow = 'auto';
+    }
+
+    // Переключение темы
+    initThemeToggle() {
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = themeToggle.querySelector('.theme-icon');
+
+        // Проверка сохраненной темы
+        const savedTheme = localStorage.getItem('uniportal-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.classList.remove('light');
+            themeIcon.textContent = 'light_mode';
         } else {
-            codeInput.focus();
-            showNotification('Введите код', 'error');
+            document.documentElement.classList.add('light');
+            document.documentElement.classList.remove('dark');
+            themeIcon.textContent = 'dark_mode';
         }
-    });
-    
-    // Закрытие по клику на оверлей
-    modalOverlay.addEventListener('click', function(e) {
-        if (e.target === modalOverlay) {
-            closeModal();
-        }
-    });
-    
-    // Закрытие по ESC
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && modalOverlay.classList.contains('show')) {
-            closeModal();
-        }
-    });
-}
 
-// Настройка взаимодействий
-function setupInteractions() {
-    // Выход из системы
-    const logoutBtn = document.getElementById('logoutBtn');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', function() {
-            if (confirm('Вы уверены, что хотите выйти?')) {
-                localStorage.removeItem('isLoggedIn');
-                localStorage.removeItem('currentUser');
-                window.location.href = 'index.html';
-            }
-        });
-    }
-    
-    // Сообщить об отсутствии
-    const reportBtn = document.getElementById('reportAbsenceBtn');
-    if (reportBtn) {
-        reportBtn.addEventListener('click', function() {
-            window.location.href = 'journal.html#report';
-        });
-    }
-    
-    // Клики по элементам для навигации
-    setupNavigationClicks();
-    
-    // Бургер меню
-    setupBurgerMenu();
-}
-
-// Навигация по кликам
-function setupNavigationClicks() {
-    // Сообщения → Чат
-    document.querySelectorAll('.message-item').forEach(item => {
-        item.addEventListener('click', function() {
-            window.location.href = 'chat.html';
-        });
-    });
-    
-    // Материалы → Материалы
-    document.querySelectorAll('.material-item').forEach(item => {
-        item.addEventListener('click', function() {
-            window.location.href = 'materials.html';
-        });
-    });
-    
-    // Дедлайны → Календарь
-    document.querySelectorAll('.deadline-item').forEach(item => {
-        item.addEventListener('click', function() {
-            window.location.href = 'calendar.html';
-        });
-    });
-    
-    // Расписание → Расписание
-    document.querySelectorAll('.schedule-item').forEach(item => {
-        item.addEventListener('click', function() {
-            window.location.href = 'schedule.html';
-        });
-    });
-}
-
-// Бургер меню
-function setupBurgerMenu() {
-    const navToggle = document.getElementById('nav-toggle');
-    const nav = document.querySelector('.nav');
-    
-    if (!navToggle || !nav) return;
-    
-    // Закрытие меню при клике на ссылку
-    nav.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', function() {
-            navToggle.checked = false;
-        });
-    });
-    
-    // Закрытие меню при ресайзе
-    window.addEventListener('resize', function() {
-        if (window.innerWidth > 768) {
-            navToggle.checked = false;
-        }
-    });
-}
-
-// Уведомления
-function showNotification(message, type = 'info') {
-    const notification = document.createElement('div');
-    notification.className = `notification notification--${type}`;
-    notification.innerHTML = `
-        <div class="notification-content">
-            <span class="notification-icon">${getNotificationIcon(type)}</span>
-            <span class="notification-text">${message}</span>
-        </div>
-    `;
-    
-    // Стили для уведомления
-    notification.style.cssText = `
-        position: fixed;
-        top: 100px;
-        right: 20px;
-        background: white;
-        padding: 16px 20px;
-        border-radius: 12px;
-        box-shadow: var(--shadow-xl);
-        border-left: 4px solid ${getNotificationColor(type)};
-        z-index: 10000;
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
-        max-width: 300px;
-    `;
-    
-    document.body.appendChild(notification);
-    
-    // Анимация появления
-    setTimeout(() => {
-        notification.style.transform = 'translateX(0)';
-    }, 100);
-    
-    // Автоматическое скрытие
-    setTimeout(() => {
-        notification.style.transform = 'translateX(100%)';
-        setTimeout(() => {
-            if (notification.parentNode) {
-                notification.parentNode.removeChild(notification);
-            }
-        }, 300);
-    }, 3000);
-}
-
-function getNotificationIcon(type) {
-    const icons = {
-        success: '✅',
-        error: '❌',
-        warning: '⚠️',
-        info: 'ℹ️'
-    };
-    return icons[type] || icons.info;
-}
-
-function getNotificationColor(type) {
-    const colors = {
-        success: '#10b981',
-        error: '#ef4444',
-        warning: '#f59e0b',
-        info: '#3b82f6'
-    };
-    return colors[type] || colors.info;
-}
-
-// Обновление данных (заглушка)
-function refreshDashboard() {
-    console.log('Обновление данных dashboard...');
-    // Здесь будет логика обновления данных
-}
-
-// Инициализация личного кабинета
-document.addEventListener('DOMContentLoaded', function() {
-    // Проверяем авторизацию
-    if (!checkAuth()) {
-        window.location.href = 'login.html';
-        return;
-    }
-
-    // Загружаем данные пользователя
-    loadUserData();
-    
-    // Инициализируем взаимодействия
-    setupInteractions();
-    
-    // Инициализируем выпадающее меню
-    initProfileDropdown();
-    
-    // Инициализируем бургер меню
-    initBurgerMenu();
-});
-
-// Проверка авторизации
-function checkAuth() {
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
-    return isLoggedIn && currentUser.email;
-}
-
-// Загрузка данных пользователя
-function loadUserData() {
-    const userData = JSON.parse(localStorage.getItem('currentUser') || '{}');
-    
-    // Заполняем данные пользователя
-    if (userData.username) {
-        document.getElementById('userName').textContent = userData.username;
-        document.getElementById('welcomeName').textContent = userData.username;
-        document.getElementById('userNameDisplay').textContent = userData.username;
-    }
-    
-    if (userData.group) {
-        document.getElementById('userGroupDisplay').textContent = `Группа ${userData.group}`;
-    }
-}
-
-// Выпадающее меню профиля
-function initProfileDropdown() {
-    const profileBtn = document.getElementById('profileBtn');
-    const profileDropdown = document.getElementById('profileDropdown');
-    const logoutBtn = document.getElementById('logoutBtn');
-    
-    if (!profileBtn || !profileDropdown) return;
-    
-    // Открытие/закрытие выпадающего меню
-    profileBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        profileDropdown.classList.toggle('show');
-    });
-    
-    // Закрытие при клике вне меню
-    document.addEventListener('click', function() {
-        profileDropdown.classList.remove('show');
-    });
-    
-    // Предотвращаем закрытие при клике внутри меню
-    profileDropdown.addEventListener('click', function(e) {
-        e.stopPropagation();
-    });
-    
-    // Выход из системы
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', function() {
-            if (confirm('Вы уверены, что хотите выйти?')) {
-                localStorage.removeItem('isLoggedIn');
-                localStorage.removeItem('currentUser');
-                window.location.href = 'index.html';
-            }
-        });
-    }
-}
-
-// Бургер меню
-function initBurgerMenu() {
-    const burgerMenu = document.getElementById('burgerMenu');
-    const nav = document.getElementById('mainNav');
-    
-    if (!burgerMenu || !nav) return;
-    
-    burgerMenu.addEventListener('click', function() {
-        nav.classList.toggle('active');
-        burgerMenu.classList.toggle('active');
-    });
-    
-    // Закрытие меню при клике на ссылку
-    nav.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', function() {
-            nav.classList.remove('active');
-            burgerMenu.classList.remove('active');
-        });
-    });
-    
-    // Закрытие меню при ресайзе
-    window.addEventListener('resize', function() {
-        if (window.innerWidth > 768) {
-            nav.classList.remove('active');
-            burgerMenu.classList.remove('active');
-        }
-    });
-}
-
-// Настройка взаимодействий
-function setupInteractions() {
-    // Сообщить об отсутствии
-    const reportBtn = document.getElementById('reportAbsenceBtn');
-    if (reportBtn) {
-        reportBtn.addEventListener('click', function() {
-            window.location.href = 'journal.html#report';
-        });
-    }
-    
-    // Клики по элементам для навигации
-    setupNavigationClicks();
-}
-
-// Навигация по кликам
-function setupNavigationClicks() {
-    // Сообщения → Чат
-    document.querySelectorAll('.message-item').forEach(item => {
-        item.addEventListener('click', function() {
-            window.location.href = 'chat.html';
-        });
-    });
-    
-    // Материалы → Материалы
-    document.querySelectorAll('.material-item').forEach(item => {
-        item.addEventListener('click', function() {
-            window.location.href = 'materials.html';
-        });
-    });
-    
-    // Дедлайны → Календарь
-    document.querySelectorAll('.deadline-item').forEach(item => {
-        item.addEventListener('click', function() {
-            window.location.href = 'calendar.html';
-        });
-    });
-    
-    // Расписание → Расписание
-    document.querySelectorAll('.schedule-item').forEach(item => {
-        item.addEventListener('click', function() {
-            window.location.href = 'schedule.html';
-        });
-    });
-}
-
-// scripts/dashboard.js
-document.addEventListener('DOMContentLoaded', function() {
-    // Элементы шапки
-    const profileBtn = document.getElementById('profileBtn');
-    const profileDropdown = document.getElementById('profileDropdown');
-    const burgerMenu = document.getElementById('burgerMenu');
-    const mainNav = document.getElementById('mainNav');
-    const logoutBtn = document.getElementById('logoutBtn');
-
-    // Переключение выпадающего меню профиля
-    if (profileBtn && profileDropdown) {
-        profileBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            profileDropdown.classList.toggle('show');
-        });
-
-        // Закрытие меню при клике вне его
-        document.addEventListener('click', function(e) {
-            if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
-                profileDropdown.classList.remove('show');
+        // Обработчик переключения
+        themeToggle.addEventListener('click', () => {
+            if (document.documentElement.classList.contains('dark')) {
+                // Переключаем на светлую
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+                localStorage.setItem('uniportal-theme', 'light');
+                themeIcon.textContent = 'dark_mode';
+            } else {
+                // Переключаем на темную
+                document.documentElement.classList.remove('light');
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('uniportal-theme', 'dark');
+                themeIcon.textContent = 'light_mode';
             }
         });
     }
 
-    // Бургер меню для мобильных устройств
-    if (burgerMenu && mainNav) {
-        burgerMenu.addEventListener('click', function() {
-            burgerMenu.classList.toggle('active');
-            mainNav.classList.toggle('active');
+    // Активная навигация
+    initActiveNav() {
+        const currentPage = window.location.pathname.split('/').pop() || 'dashboard.html';
+        
+        // Найти все ссылки в навигации
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        navLinks.forEach(link => {
+            // Удалить активный класс
+            link.classList.remove('active');
             
-            // Закрываем меню профиля при открытии бургер-меню
-            if (profileDropdown) {
-                profileDropdown.classList.remove('show');
+            // Проверить, соответствует ли ссылка текущей странице
+            const linkHref = link.getAttribute('href');
+            if (this.isCurrentPage(linkHref, currentPage)) {
+                link.classList.add('active');
+            }
+            
+            // Добавить обработчик для превью (если страница не существует)
+            link.addEventListener('click', (e) => {
+                if (!this.pageExists(linkHref)) {
+                    e.preventDefault();
+                    this.showPagePreview(linkHref);
+                }
+            });
+        });
+    }
+
+    isCurrentPage(linkHref, currentPage) {
+        // Специальные случаи
+        if (currentPage === '' && linkHref === 'dashboard.html') return true;
+        if (currentPage === 'index.html' && linkHref === 'dashboard.html') return true;
+        
+        // Обычное сравнение
+        return linkHref === currentPage;
+    }
+
+    pageExists(page) {
+        // В реальном приложении здесь была бы проверка на существование файла
+        // Пока что симулируем существующие страницы
+        const existingPages = [
+            'dashboard.html',
+            'materials.html',
+            'calendar.html',
+            'schedule.html',
+            'chat.html',
+            'journal.html',
+            'information.html',
+            'profile.html'
+        ];
+        
+        return existingPages.includes(page);
+    }
+
+    // Уведомления
+    initNotifications() {
+        const notificationBtn = document.querySelector('.notification-btn');
+        
+        notificationBtn.addEventListener('click', () => {
+            this.showNotifications();
+        });
+        
+        // Симулируем получение новых уведомлений
+        this.simulateNewNotifications();
+    }
+
+    showNotifications() {
+        const notifications = [
+            {
+                id: 1,
+                title: 'Новый материал по физике',
+                message: 'Добавлена новая лекция по теме "Квантовая механика"',
+                time: '10 минут назад',
+                read: false
+            },
+            {
+                id: 2,
+                title: 'Сообщение от старосты',
+                message: 'Завтра собрание группы в 14:00 в аудитории 301',
+                time: '1 час назад',
+                read: false
+            },
+            {
+                id: 3,
+                title: 'Изменение в расписании',
+                message: 'Занятие по математике перенесено на 11:00',
+                time: '2 часа назад',
+                read: true
+            }
+        ];
+        
+        // В реальном приложении здесь было бы модальное окно
+        // Показываем простой alert
+        let message = 'У вас 3 уведомления:\n\n';
+        notifications.forEach(notif => {
+            message += `• ${notif.title}\n  ${notif.message}\n  ${notif.time}\n\n`;
+        });
+        
+        alert(message);
+    }
+
+    simulateNewNotifications() {
+        // В реальном приложении здесь была бы интеграция с сервером
+        // Сейчас просто обновляем бейдж каждые 30 секунд
+        setInterval(() => {
+            const badge = document.querySelector('.notification-badge');
+            if (Math.random() > 0.7) { // 30% шанс нового уведомления
+                badge.style.display = 'flex';
+            }
+        }, 30000);
+    }
+
+    // Взаимодействия с виджетами
+    initWidgetInteractions() {
+        // Клик по сообщению
+        document.querySelectorAll('.message-item').forEach(item => {
+            item.addEventListener('click', () => {
+                this.openMessage(item);
+            });
+        });
+        
+        // Клик по занятию
+        document.querySelectorAll('.class-info').forEach(item => {
+            item.addEventListener('click', () => {
+                this.showClassDetails(item);
+            });
+        });
+        
+        // Обновление прогресса
+        this.updateProgressBars();
+    }
+
+    openMessage(messageElement) {
+        const sender = messageElement.querySelector('.message-sender').textContent;
+        const title = messageElement.querySelector('.message-title').textContent;
+        
+        alert(`Открыто сообщение от ${sender}:\n\nТема: ${title}\n\nЭта функция будет реализована в полной версии чата.`);
+    }
+
+    showClassDetails(classElement) {
+        const className = classElement.querySelector('.class-name').textContent;
+        const teacher = classElement.querySelector('.class-teacher').textContent;
+        const location = classElement.querySelector('.class-location').textContent;
+        
+        alert(`Занятие: ${className}\nПреподаватель: ${teacher}\nМесто: ${location}\n\nЭта функция будет реализована в полной версии расписания.`);
+    }
+
+    updateProgressBars() {
+        // Анимация заполнения прогресс-баров
+        const progressBars = document.querySelectorAll('.progress-fill');
+        
+        progressBars.forEach(bar => {
+            const width = bar.style.width;
+            bar.style.width = '0%';
+            
+            setTimeout(() => {
+                bar.style.transition = 'width 1s ease-in-out';
+                bar.style.width = width;
+            }, 100);
+        });
+    }
+
+    // Загрузка данных пользователя
+    async loadUserData() {
+        try {
+            // В реальном приложении здесь был бы запрос к API
+            const userData = {
+                name: 'Алексей Иванов',
+                email: 'студент@университет.ru',
+                group: 'ИТ-201',
+                role: 'Студент',
+                avatar: 'А',
+                attendance: 95,
+                progress: [
+                    { subject: 'Высшая математика', percent: 75, modules: '3/4' },
+                    { subject: 'Физика', percent: 40, modules: '2/5' },
+                    { subject: 'Программирование', percent: 90, modules: '9/10' }
+                ],
+                messages: [
+                    { sender: 'Ирина Петрова', title: 'Обновление по проекту', time: '1 час назад' },
+                    { sender: 'Группа по физике', title: 'Встреча завтра', time: '3 часа назад' }
+                ],
+                schedule: [
+                    { name: 'Физика', teacher: 'Доц. Сергеев А.В.', time: '10:00-11:30', location: 'Аудитория 301' },
+                    { name: 'Программирование', teacher: 'Проф. Иванова Е.П.', time: '13:00-14:30', location: 'Онлайн' }
+                ]
+            };
+            
+            this.updateUI(userData);
+            
+        } catch (error) {
+            console.error('Ошибка загрузки данных:', error);
+            this.showError('Не удалось загрузить данные. Пожалуйста, проверьте соединение.');
+        }
+    }
+
+    updateUI(data) {
+        // Обновляем имя пользователя
+        document.querySelectorAll('.profile-name').forEach(el => {
+            el.textContent = data.name;
+        });
+        
+        document.querySelector('.profile-name-text').textContent = data.name.split(' ')[0];
+        
+        // Обновляем email
+        document.querySelectorAll('.profile-email').forEach(el => {
+            el.textContent = data.email;
+        });
+        
+        // Обновляем прогресс
+        const progressItems = document.querySelectorAll('.progress-item');
+        progressItems.forEach((item, index) => {
+            if (data.progress[index]) {
+                const progress = data.progress[index];
+                item.querySelector('.progress-subject').textContent = progress.subject;
+                item.querySelector('.progress-percent').textContent = `${progress.percent}%`;
+                item.querySelector('.progress-fill').style.width = `${progress.percent}%`;
+                item.querySelector('.progress-desc').textContent = `${progress.modules} модулей завершено`;
             }
         });
+        
+        // Обновляем сообщения
+        const messageItems = document.querySelectorAll('.message-item');
+        messageItems.forEach((item, index) => {
+            if (data.messages[index]) {
+                const message = data.messages[index];
+                item.querySelector('.message-sender').textContent = message.sender;
+                item.querySelector('.message-title').textContent = message.title;
+                item.querySelector('.message-time').textContent = message.time;
+                item.querySelector('.message-avatar').textContent = message.sender.charAt(0);
+            }
+        });
+        
+        // Обновляем расписание
+        const classItems = document.querySelectorAll('.class-item');
+        classItems.forEach((item, index) => {
+            if (data.schedule[index]) {
+                const classData = data.schedule[index];
+                const [start, end] = classData.time.split('-');
+                
+                item.querySelector('.time-start').textContent = start;
+                item.querySelector('.time-end').textContent = end;
+                item.querySelector('.class-name').textContent = classData.name;
+                item.querySelector('.class-teacher').textContent = classData.teacher;
+                item.querySelector('.class-location').textContent = classData.location;
+            }
+        });
+        
+        // Обновляем посещаемость
+        document.querySelector('.attendance-percent').textContent = `${data.attendance}%`;
+        const attendanceCircle = document.querySelector('.attendance-fill');
+        const offset = 100 - data.attendance;
+        attendanceCircle.style.strokeDashoffset = offset;
+    }
 
-        // Закрытие меню при клике вне его
-        document.addEventListener('click', function(e) {
-            if (!burgerMenu.contains(e.target) && !mainNav.contains(e.target)) {
-                burgerMenu.classList.remove('active');
-                mainNav.classList.remove('active');
+    // Вспомогательные методы
+    showPagePreview(pageName) {
+        const pageTitles = {
+            'materials.html': 'Учебные материалы',
+            'calendar.html': 'Календарь событий',
+            'schedule.html': 'Расписание занятий',
+            'chat.html': 'Академический чат',
+            'journal.html': 'Электронный журнал',
+            'information.html': 'Информация о платформе',
+            'profile.html': 'Профиль пользователя'
+        };
+        
+        const title = pageTitles[pageName] || pageName;
+        alert(`Страница "${title}" находится в разработке.\n\nЭта функция будет доступна в следующем обновлении.`);
+    }
+
+    showError(message) {
+        // В реальном приложении здесь было бы красивое уведомление
+        console.error(message);
+        
+        // Просто показываем в консоли для разработки
+        const errorDiv = document.createElement('div');
+        errorDiv.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #ef4444;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        `;
+        errorDiv.textContent = message;
+        document.body.appendChild(errorDiv);
+        
+        setTimeout(() => {
+            errorDiv.remove();
+        }, 5000);
+    }
+
+    // Метод для обновления данных в реальном времени
+    startLiveUpdates() {
+        // Обновляем данные каждые 5 минут
+        setInterval(() => {
+            this.loadUserData();
+        }, 5 * 60 * 1000);
+        
+        // Обновляем время в уведомлениях
+        setInterval(() => {
+            this.updateMessageTimes();
+        }, 60 * 1000);
+    }
+
+    updateMessageTimes() {
+        const timeElements = document.querySelectorAll('.message-time');
+        
+        timeElements.forEach(element => {
+            const currentText = element.textContent;
+            const updatedText = this.getUpdatedTime(currentText);
+            if (updatedText !== currentText) {
+                element.textContent = updatedText;
             }
         });
     }
 
-    // Выход из системы
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', function() {
-            if (confirm('Вы уверены, что хотите выйти?')) {
-                // Здесь будет логика выхода
-                window.location.href = 'index.html';
+    getUpdatedTime(timeText) {
+        // Простая логика обновления времени
+        if (timeText.includes('только что')) {
+            return '1 минуту назад';
+        } else if (timeText.includes('минут')) {
+            const minutes = parseInt(timeText);
+            if (minutes < 59) {
+                return `${minutes + 1} минут назад`;
+            } else {
+                return '1 час назад';
             }
-        });
+        } else if (timeText.includes('час')) {
+            const hours = parseInt(timeText);
+            if (hours < 23) {
+                return `${hours + 1} часов назад`;
+            } else {
+                return 'вчера';
+            }
+        }
+        
+        return timeText;
     }
+}
 
-    // Заполнение данных пользователя
-    const userData = {
-        name: 'Иван Петров',
-        shortName: 'Иван',
-        group: 'Группа ИВТ-101',
-        shortGroup: 'ИВТ-101'
-    };
+// Инициализация при загрузке страницы
+document.addEventListener('DOMContentLoaded', () => {
+    const dashboard = new Dashboard();
+    
+    // Запускаем обновления в реальном времени
+    dashboard.startLiveUpdates();
+    
+    // Экспортируем для глобального доступа (если нужно)
+    window.Dashboard = dashboard;
+});
 
-    // Обновляем все элементы с данными пользователя
-    document.querySelectorAll('[id*="userNameDisplay"]').forEach(el => {
-        if (el.id.includes('Large')) {
-            el.textContent = userData.name;
-        } else {
-            el.textContent = userData.shortName;
-        }
-    });
-
-    document.querySelectorAll('[id*="userGroupDisplay"]').forEach(el => {
-        if (el.id.includes('Large')) {
-            el.textContent = userData.group;
-        } else {
-            el.textContent = userData.shortGroup;
-        }
-    });
-
-    const welcomeName = document.getElementById('welcomeName');
-    if (welcomeName) welcomeName.textContent = userData.shortName;
+// Автоматическое скрытие меню при изменении размера окна
+window.addEventListener('resize', () => {
+    const mobileNav = document.getElementById('mobile-nav');
+    const mobileNavOverlay = document.getElementById('mobile-nav-overlay');
+    
+    if (window.innerWidth >= 768) {
+        mobileNav.classList.remove('visible');
+        mobileNavOverlay.classList.remove('visible');
+        document.body.style.overflow = 'auto';
+    }
 });
