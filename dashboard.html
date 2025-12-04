@@ -369,10 +369,14 @@
         </button>
     </div>
 
+    <script src="scripts/users.js"></script>
     <script src="scripts/session.js"></script>
     <script>
         window.addEventListener('load', () => {
-            checkAuth("index.html");
+            const user = getCurrentUser();
+            
+            if (!user) {
+            }
         });
     </script>
 

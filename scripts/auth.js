@@ -63,14 +63,14 @@ function registerValidator(data){
         return false;
     }
 
-    if(!isValidEmail(email)){
+    if (!isValidEmail(data.email)){
         alert('Введите корректный Email!');
-        return;
+        return false;
     }
 
-    if(!isValidPassword(password)){
+    if (!isValidPassword(data.password)){
         alert('Пароль должен быть не менее 8 символов и содержать буквы и цифры!');
-        return;
+        return false;
     }
 
     return true;

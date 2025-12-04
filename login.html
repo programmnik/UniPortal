@@ -347,13 +347,12 @@
             const user = getCurrentUser(); 
             
             if (user) {
-                alert(user.email)
-                if(document.readyState !== 'complete') alert('документ не загружен!')
                 window.location.href = 'dashboard.html';
             }
         });
     </script>
     <script src="scripts/theme-toggle.js"></script>
+    <script src="scripts/validation.js"></script>
     <script src="scripts/auth.js"></script>
     
 
