@@ -4,11 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UniPortal - Панель управления</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-    <!-- Кастомные стили -->
     <link rel="stylesheet" href="styles/dashboard.css">
 </head>
 <body class="font-display bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-200">
@@ -370,8 +368,13 @@
             <span class="material-symbols-outlined theme-icon">dark_mode</span>
         </button>
     </div>
-    
-    <!-- JavaScript -->
-    <script src="scripts/dashboard.js"></script>
+
+    <script src="scripts/session.js"></script>
+    <script>
+        window.addEventListener('load', () => {
+            checkAuth("index.html");
+        });
+    </script>
+
 </body>
 </html>

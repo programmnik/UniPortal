@@ -1,392 +1,322 @@
-// Database API для UniPortal
-class DatabaseAPI {
-    constructor() {
-        this.baseUrl = ''; // В реальном приложении здесь будет URL API
-        this.isDemoMode = true; // Режим демо - пока используем localStorage
-        this.init();
+// Логика личного кабинета
+
+document.addEventListener('DOMContentLoaded', function() {
+    initDashboard();
+});
+
+function initDashboard() {
+    // Проверяем авторизацию
+    if (!window.auth || !window.auth.isAuthenticated()) {
+        showError('Необходимо авторизоваться');
+        setTimeout(() => {
+            window.location.href = 'login.html?redirect=dashboard.html';
+        }, 1500);
+        return;
+    }
+    
+    // Загружаем данные пользователя
+    loadUserData();
+    
+    // Инициализируем UI
+    initMobileMenu();
+    initThemeToggle();
+    loadDashboardData();
+    initSearch();
+}
+
+function loadUserData() {
+    const session = window.auth.getSession();
+    if (!session) return;
+    
+    const user = userSystem.getCurrentUser(session.id);
+    if (!user) return;
+    
+    // Обновляем данные на странице
+    updateUserUI(user);
+    
+    // Сохраняем данные для быстрого доступа
+    localStorage.setItem('current_user_data', JSON.stringify(user.toJSON()));
+}
+
+function updateUserUI(user) {
+    // Аватары
+    const avatars = document.querySelectorAll('.avatar, .mobile-avatar');
+    avatars.forEach(avatar => {
+        avatar.textContent = user.nickname.charAt(0).toUpperCase();
+    });
+    
+    // Имена
+    const nameElements = document.querySelectorAll('.profile-name, .profile-name-text');
+    nameElements.forEach(el => {
+        el.textContent = user.nickname;
+    });
+    
+    // Email
+    const emailElements = document.querySelectorAll('.profile-email');
+    emailElements.forEach(el => {
+        el.textContent = user.email;
+    });
+    
+    // Роль
+    const roleElements = document.querySelectorAll('#profileRole, .profile-role-student');
+    roleElements.forEach(el => {
+        if (el.id === 'profileRole') {
+            el.value = user.role === 'student' ? 'Студент' : 
+                       user.role === 'leader' ? 'Староста' : 'Администратор';
+        } else {
+            el.textContent = user.role === 'student' ? 'Студент' : 
+                            user.role === 'leader' ? 'Староста' : 'Администратор';
+        }
+    });
+    
+    // Группа
+    const groupElements = document.querySelectorAll('#profileGroup');
+    groupElements.forEach(el => {
+        el.value = user.group;
+    });
+}
+
+function initMobileMenu() {
+    const openBtn = document.getElementById('open-mobile-nav');
+    const closeBtn = document.getElementById('close-mobile-nav');
+    const mobileNav = document.getElementById('mobile-nav');
+    const overlay = document.getElementById('mobile-nav-overlay');
+
+    function openMenu() {
+        mobileNav.classList.add('visible');
+        overlay.classList.add('visible');
+        document.body.style.overflow = 'hidden';
     }
 
-    init() {
-        // Инициализация локального хранилища для демо-режима
-        if (this.isDemoMode && !localStorage.getItem('uniportal_demo_data')) {
-            this.createDemoData();
-        }
+    function closeMenu() {
+        mobileNav.classList.remove('visible');
+        overlay.classList.remove('visible');
+        document.body.style.overflow = '';
     }
 
-    // Методы для работы с пользователями
-    async authenticate(email, password) {
-        if (this.isDemoMode) {
-            return this.demoAuthenticate(email, password);
-        }
-        
-        // В реальном приложении здесь будет fetch запрос к API
-        try {
-            const response = await fetch(`${this.baseUrl}/api/auth/login`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email, password })
-            });
-            
-            return await response.json();
-        } catch (error) {
-            console.error('Auth error:', error);
-            return { success: false, message: 'Ошибка соединения' };
-        }
+    openBtn?.addEventListener('click', openMenu);
+    closeBtn?.addEventListener('click', closeMenu);
+    overlay?.addEventListener('click', closeMenu);
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeMenu();
+    });
+}
+
+function initThemeToggle() {
+    const themeToggle = document.getElementById('theme-toggle');
+    if (!themeToggle) return;
+
+    const icon = themeToggle.querySelector('.theme-icon');
+    const isDark = document.documentElement.classList.contains('dark');
+
+    if (icon) {
+        icon.textContent = isDark ? 'light_mode' : 'dark_mode';
     }
 
-    async register(userData) {
-        if (this.isDemoMode) {
-            return this.demoRegister(userData);
-        }
+    themeToggle.addEventListener('click', function() {
+        const html = document.documentElement;
+        const isDark = html.classList.contains('dark');
         
-        try {
-            const response = await fetch(`${this.baseUrl}/api/auth/register`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(userData)
-            });
-            
-            return await response.json();
-        } catch (error) {
-            console.error('Register error:', error);
-            return { success: false, message: 'Ошибка соединения' };
+        if (isDark) {
+            html.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
+            if (icon) icon.textContent = 'dark_mode';
+        } else {
+            html.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+            if (icon) icon.textContent = 'light_mode';
         }
-    }
+    });
+}
 
-    async getUserInfo(email) {
-        if (this.isDemoMode) {
-            return this.demoGetUserInfo(email);
-        }
-        
-        try {
-            const response = await fetch(`${this.baseUrl}/api/users/${email}`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${this.getToken()}`
-                }
-            });
-            
-            return await response.json();
-        } catch (error) {
-            console.error('Get user error:', error);
-            return null;
-        }
-    }
+function loadDashboardData() {
+    const user = getCurrentUserFromStorage();
+    if (!user) return;
 
-    // Методы для работы с группами
-    async getUserGroups(email) {
-        if (this.isDemoMode) {
-            return this.demoGetUserGroups(email);
-        }
-        
-        try {
-            const response = await fetch(`${this.baseUrl}/api/users/${email}/groups`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${this.getToken()}`
-                }
-            });
-            
-            return await response.json();
-        } catch (error) {
-            console.error('Get groups error:', error);
-            return [];
-        }
-    }
+    // Обновляем приветствие
+    updateGreeting(user);
+    
+    // Загружаем виджеты
+    loadWidgetData();
+}
 
-    async isGroupLeader(email) {
-        if (this.isDemoMode) {
-            return this.demoIsGroupLeader(email);
-        }
-        
-        try {
-            const response = await fetch(`${this.baseUrl}/api/users/${email}/is-leader`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${this.getToken()}`
-                }
-            });
-            
-            const data = await response.json();
-            return data.isLeader || false;
-        } catch (error) {
-            console.error('Check leader error:', error);
-            return false;
-        }
-    }
-
-    async isAdmin(email) {
-        if (this.isDemoMode) {
-            return this.demoIsAdmin(email);
-        }
-        
-        try {
-            const response = await fetch(`${this.baseUrl}/api/users/${email}/is-admin`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${this.getToken()}`
-                }
-            });
-            
-            const data = await response.json();
-            return data.isAdmin || false;
-        } catch (error) {
-            console.error('Check admin error:', error);
-            return false;
-        }
-    }
-
-    // Демо-реализации (работают через localStorage)
-    demoAuthenticate(email, password) {
-        const demoData = JSON.parse(localStorage.getItem('uniportal_demo_data') || '{}');
-        const users = demoData.users || {};
-        
-        const user = users[email];
-        if (!user) {
-            return {
-                success: false,
-                message: 'Пользователь не найден'
-            };
-        }
-        
-        if (user.password !== password) {
-            return {
-                success: false,
-                message: 'Неверный пароль'
-            };
-        }
-        
-        // Создаем сессию
-        const session = {
-            email: user.email,
-            nickname: user.nickname,
-            role: user.role,
-            group: user.group,
-            userId: user.userId
-        };
-        
-        localStorage.setItem('uni_session', JSON.stringify({
-            user: session,
-            sessionId: 'demo_' + Date.now(),
-            created: Date.now(),
-            expires: Date.now() + (24 * 60 * 60 * 1000)
-        }));
-        
-        return {
-            success: true,
-            message: 'Вход выполнен успешно',
-            user: session
-        };
-    }
-
-    demoRegister(userData) {
-        const demoData = JSON.parse(localStorage.getItem('uniportal_demo_data') || '{}');
-        const users = demoData.users || {};
-        const groups = demoData.groups || {};
-        
-        // Проверяем существование email
-        if (users[userData.email]) {
-            return {
-                success: false,
-                message: 'Пользователь с таким email уже существует'
-            };
-        }
-        
-        // Проверяем существование никнейма
-        for (const user of Object.values(users)) {
-            if (user.nickname === userData.nickname) {
-                return {
-                    success: false,
-                    message: 'Пользователь с таким никнеймом уже существует'
-                };
-            }
-        }
-        
-        // Проверяем пригласительный код
-        const inviteCode = userData.inviteCode;
-        let role = 'student';
-        let group = 'IT-101'; // По умолчанию
-        
-        if (inviteCode === 'LEADER2024') {
-            role = 'leader';
-        } else if (inviteCode === 'ADMIN2024') {
-            role = 'admin';
-        } else if (inviteCode !== 'STUDENT2024') {
-            return {
-                success: false,
-                message: 'Неверный пригласительный код'
-            };
-        }
-        
-        // Создаем пользователя
-        const userId = 'usr_' + Date.now();
-        users[userData.email] = {
-            email: userData.email,
-            password: userData.password,
-            nickname: userData.nickname,
-            role: role,
-            group: group,
-            userId: userId,
-            createdAt: new Date().toISOString()
-        };
-        
-        // Добавляем пользователя в группу
-        if (!groups[group]) {
-            groups[group] = {
-                groupId: group,
-                groupName: `Группа ${group}`,
-                members: []
-            };
-        }
-        groups[group].members.push(userData.email);
-        
-        // Обновляем demoData
-        demoData.users = users;
-        demoData.groups = groups;
-        localStorage.setItem('uniportal_demo_data', JSON.stringify(demoData));
-        
-        // Создаем сессию
-        const session = {
-            email: userData.email,
-            nickname: userData.nickname,
-            role: role,
-            group: group,
-            userId: userId
-        };
-        
-        localStorage.setItem('uni_session', JSON.stringify({
-            user: session,
-            sessionId: 'demo_' + Date.now(),
-            created: Date.now(),
-            expires: Date.now() + (24 * 60 * 60 * 1000)
-        }));
-        
-        return {
-            success: true,
-            message: 'Регистрация успешна',
-            user: session
-        };
-    }
-
-    demoGetUserInfo(email) {
-        const demoData = JSON.parse(localStorage.getItem('uniportal_demo_data') || '{}');
-        const users = demoData.users || {};
-        
-        const user = users[email];
-        if (!user) return null;
-        
-        // Добавляем дополнительные поля
-        return {
-            ...user,
-            attendance: 95,
-            progress: [
-                { subject: 'Высшая математика', percent: 75, modules: '3/4' },
-                { subject: 'Физика', percent: 40, modules: '2/5' },
-                { subject: 'Программирование', percent: 90, modules: '9/10' }
-            ],
-            messages: [
-                { sender: 'Ирина Петрова', title: 'Обновление по проекту', time: '1 час назад' },
-                { sender: 'Группа по физике', title: 'Встреча завтра', time: '3 часа назад' }
-            ],
-            schedule: [
-                { name: 'Физика', teacher: 'Доц. Сергеев А.В.', time: '10:00-11:30', location: 'Аудитория 301' },
-                { name: 'Программирование', teacher: 'Проф. Иванова Е.П.', time: '13:00-14:30', location: 'Онлайн' }
-            ]
-        };
-    }
-
-    demoGetUserGroups(email) {
-        const demoData = JSON.parse(localStorage.getItem('uniportal_demo_data') || '{}');
-        const users = demoData.users || {};
-        const user = users[email];
-        
-        return user ? [user.group] : [];
-    }
-
-    demoIsGroupLeader(email) {
-        const demoData = JSON.parse(localStorage.getItem('uniportal_demo_data') || '{}');
-        const users = demoData.users || {};
-        const user = users[email];
-        
-        return user ? user.role === 'leader' : false;
-    }
-
-    demoIsAdmin(email) {
-        const demoData = JSON.parse(localStorage.getItem('uniportal_demo_data') || '{}');
-        const users = demoData.users || {};
-        const user = users[email];
-        
-        return user ? user.role === 'admin' : false;
-    }
-
-    createDemoData() {
-        const demoData = {
-            users: {
-                'student@uniportal.ru': {
-                    email: 'student@uniportal.ru',
-                    password: 'student123',
-                    nickname: 'ИванСтудент',
-                    role: 'student',
-                    group: 'IT-101',
-                    userId: 'stu_001',
-                    createdAt: new Date().toISOString()
-                },
-                'leader@uniportal.ru': {
-                    email: 'leader@uniportal.ru',
-                    password: 'leader123',
-                    nickname: 'АннаСтароста',
-                    role: 'leader',
-                    group: 'IT-101',
-                    userId: 'ldr_001',
-                    createdAt: new Date().toISOString()
-                },
-                'admin@uniportal.ru': {
-                    email: 'admin@uniportal.ru',
-                    password: 'admin123',
-                    nickname: 'АдминСистемы',
-                    role: 'admin',
-                    group: 'IT-101',
-                    userId: 'adm_001',
-                    createdAt: new Date().toISOString()
-                }
-            },
-            groups: {
-                'IT-101': {
-                    groupId: 'IT-101',
-                    groupName: 'Информационные технологии 101',
-                    members: ['student@uniportal.ru', 'leader@uniportal.ru', 'admin@uniportal.ru'],
-                    leaders: ['leader@uniportal.ru']
-                }
-            },
-            admins: ['admin@uniportal.ru']
-        };
-        
-        localStorage.setItem('uniportal_demo_data', JSON.stringify(demoData));
-        console.log('✅ Демо-данные созданы');
-    }
-
-    // Вспомогательные методы
-    getToken() {
-        const session = localStorage.getItem('uni_session');
-        if (session) {
-            try {
-                const parsed = JSON.parse(session);
-                return parsed.sessionId;
-            } catch (e) {
-                return null;
-            }
-        }
+function getCurrentUserFromStorage() {
+    try {
+        const data = localStorage.getItem('current_user_data');
+        return data ? JSON.parse(data) : null;
+    } catch (e) {
         return null;
-    }
-
-    clearSession() {
-        localStorage.removeItem('uni_session');
     }
 }
 
-// Глобальный объект для доступа к API
-window.UniPortalDB = new DatabaseAPI();
+function updateGreeting(user) {
+    const greetingElements = document.querySelectorAll('.page-subtitle, .mobile-subtitle');
+    const hour = new Date().getHours();
+    let greeting = '';
+    
+    if (hour < 6) greeting = 'Доброй ночи';
+    else if (hour < 12) greeting = 'Доброе утро';
+    else if (hour < 18) greeting = 'Добрый день';
+    else greeting = 'Добрый вечер';
+    
+    greetingElements.forEach(el => {
+        if (el.textContent.includes('Добро пожаловать') || el.textContent.includes('Добро пожаловать')) {
+            el.textContent = `${greeting}, ${user.nickname}! Вот ваша сводка на сегодня.`;
+        }
+    });
+}
+
+function loadWidgetData() {
+    // Демо-данные
+    const progressData = [
+        { subject: 'Высшая математика', percent: 75, description: '3/4 модулей завершено' },
+        { subject: 'Физика', percent: 40, description: '2/5 модулей завершено' },
+        { subject: 'Программирование', percent: 90, description: '9/10 глав прочитано' }
+    ];
+
+    const classesData = [
+        { 
+            name: 'Физика', 
+            teacher: 'Доц. Сергеев А.В.', 
+            location: 'Аудитория 301, Главный корпус',
+            start: '10:00', 
+            end: '11:30',
+            isNow: true 
+        },
+        { 
+            name: 'Программирование', 
+            teacher: 'Проф. Иванова Е.П.', 
+            location: 'Онлайн - ссылка в портале',
+            start: '13:00', 
+            end: '14:30',
+            isNow: false 
+        }
+    ];
+
+    // Обновляем виджеты
+    updateProgressWidget(progressData);
+    updateClassesWidget(classesData);
+    updateAttendanceWidget(95);
+}
+
+function updateProgressWidget(data) {
+    const container = document.querySelector('.progress-list');
+    if (!container) return;
+
+    container.innerHTML = data.map(item => `
+        <div class="progress-item">
+            <div class="progress-header">
+                <p class="progress-subject">${item.subject}</p>
+                <p class="progress-percent">${item.percent}%</p>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: ${item.percent}%"></div>
+            </div>
+            <p class="progress-desc">${item.description}</p>
+        </div>
+    `).join('');
+}
+
+function updateClassesWidget(data) {
+    const container = document.querySelector('.classes-list');
+    if (!container) return;
+
+    container.innerHTML = data.map(item => `
+        <div class="class-item">
+            <div class="class-time">
+                <p class="time-start">${item.start}</p>
+                <div class="time-line"></div>
+                <p class="time-end">${item.end}</p>
+            </div>
+            <div class="class-info ${item.isNow ? 'primary' : ''}">
+                <p class="class-name">${item.name}</p>
+                <p class="class-teacher">${item.teacher}</p>
+                <p class="class-location">${item.location}</p>
+            </div>
+        </div>
+    `).join('');
+}
+
+function updateAttendanceWidget(percent) {
+    const percentElement = document.querySelector('.attendance-percent');
+    const svgElement = document.querySelector('.attendance-fill');
+    
+    if (percentElement) percentElement.textContent = percent + '%';
+    if (svgElement) {
+        const circumference = 2 * Math.PI * 16;
+        const offset = circumference - (percent / 100) * circumference;
+        svgElement.style.strokeDashoffset = offset;
+    }
+}
+
+function initSearch() {
+    const searchInput = document.querySelector('.search-input');
+    const searchIcon = document.querySelector('.search-icon');
+    
+    if (!searchInput || !searchIcon) return;
+    
+    searchIcon.addEventListener('click', () => searchInput.focus());
+    
+    searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') performSearch(this.value);
+    });
+}
+
+function performSearch(query) {
+    if (!query.trim()) return;
+    
+    console.log('Поиск:', query);
+    showNotification(`Поиск: "${query}"`, 'info');
+}
+
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.innerHTML = `
+        <span class="material-symbols-outlined">
+            ${type === 'success' ? 'check_circle' : type === 'error' ? 'error' : 'info'}
+        </span>
+        <span>${message}</span>
+    `;
+    
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'};
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        animation: slideIn 0.3s ease;
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => notification.remove(), 3000);
+}
+
+function showError(message) {
+    showNotification(message, 'error');
+}
+
+// Добавляем стили для анимаций
+if (!document.querySelector('style[data-dashboard-animations]')) {
+    const style = document.createElement('style');
+    style.setAttribute('data-dashboard-animations', 'true');
+    style.textContent = `
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .notification { animation: slideIn 0.3s ease !important; }
+        .progress-fill { transition: width 0.6s ease; }
+    `;
+    document.head.appendChild(style);
+}

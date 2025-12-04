@@ -3,194 +3,508 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Профиль | UniPortal</title>
-    <link rel="stylesheet" href="styles/main.css">
+    <title>UniPortal - Профиль</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/dashboard.css">
     <link rel="stylesheet" href="styles/profile.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 </head>
-<body>
-    <!-- Шапка (такая же как в dashboard) -->
-    <header class="header header--internal">
-        <!-- Тот же код что и в dashboard -->
-    </header>
-
-    <main class="profile-main">
-        <div class="container">
-            <div class="profile-header">
-                <h1>Настройки профиля</h1>
-                <p>Управление вашей учетной записью и настройками</p>
-            </div>
-
-            <div class="profile-content">
-                <div class="profile-sidebar">
-                    <nav class="profile-nav">
-                        <button class="nav-item active" data-tab="general">👤 Основная информация</button>
-                        <button class="nav-item" data-tab="security">🔐 Безопасность</button>
-                        <button class="nav-item" data-tab="notifications">🔔 Уведомления</button>
-                        <button class="nav-item" data-tab="appearance">🎨 Внешний вид</button>
-                    </nav>
+<body class="font-display bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-200">
+    <!-- Контейнер приложения -->
+    <div class="dashboard-container">
+        <!-- Боковая навигация (для десктопа) -->
+        <nav id="desktop-nav" class="desktop-nav">
+            <!-- Логотип -->
+            <div class="nav-header">
+                <div class="logo-container">
+                    <span class="material-symbols-outlined logo-icon">school</span>
+                    <span class="logo-text">UniPortal</span>
                 </div>
-
-                <div class="profile-panels">
-                    <!-- Основная информация -->
-                    <div class="profile-panel active" id="general-panel">
-                        <h2>Основная информация</h2>
-                        <form class="profile-form">
-                            <div class="avatar-section">
-                                <div class="avatar-upload">
-                                    <div class="avatar-preview">
-                                        <div class="avatar-icon">👤</div>
+            </div>
+            
+            <!-- Навигационные ссылки -->
+            <div class="nav-content">
+                <div class="nav-links">
+                    <a href="dashboard.html" class="nav-link">
+                        <span class="material-symbols-outlined nav-icon">dashboard</span>
+                        <span class="nav-text">Панель управления</span>
+                    </a>
+                    <a href="materials.html" class="nav-link">
+                        <span class="material-symbols-outlined nav-icon">book</span>
+                        <span class="nav-text">Материалы</span>
+                    </a>
+                    <a href="calendar.html" class="nav-link">
+                        <span class="material-symbols-outlined nav-icon">calendar_month</span>
+                        <span class="nav-text">Календарь</span>
+                    </a>
+                    <a href="schedule.html" class="nav-link">
+                        <span class="material-symbols-outlined nav-icon">schedule</span>
+                        <span class="nav-text">Расписание</span>
+                    </a>
+                    <a href="chat.html" class="nav-link">
+                        <span class="material-symbols-outlined nav-icon">chat</span>
+                        <span class="nav-text">Чат</span>
+                    </a>
+                    <a href="journal.html" class="nav-link">
+                        <span class="material-symbols-outlined nav-icon">edit_note</span>
+                        <span class="nav-text">Журнал</span>
+                    </a>
+                    <a href="information.html" class="nav-link">
+                        <span class="material-symbols-outlined nav-icon">info</span>
+                        <span class="nav-text">Информация</span>
+                    </a>
+                </div>
+                
+                <!-- Профиль пользователя -->
+                <div class="user-profile">
+                    <div class="profile-content">
+                        <div class="avatar" id="profile-avatar">И</div>
+                        <div class="profile-info">
+                            <p class="profile-name" id="profile-name">Иван Студент</p>
+                            <p class="profile-email" id="profile-email">student@uniportal.ru</p>
+                        </div>
+                        <a href="profile.html" class="profile-link active">
+                            <span class="material-symbols-outlined">person</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Мобильная навигация (скрытое меню) -->
+        <nav id="mobile-nav" class="mobile-nav">
+            <!-- Логотип и кнопка закрытия -->
+            <div class="mobile-nav-header">
+                <div class="logo-container">
+                    <span class="material-symbols-outlined logo-icon">school</span>
+                    <span class="logo-text">UniPortal</span>
+                </div>
+                <button id="close-mobile-nav" class="close-nav-btn">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            
+            <!-- Навигационные ссылки -->
+            <div class="mobile-nav-content">
+                <div class="nav-links">
+                    <a href="dashboard.html" class="nav-link">
+                        <span class="material-symbols-outlined nav-icon">dashboard</span>
+                        <span class="nav-text">Панель управления</span>
+                    </a>
+                    <a href="materials.html" class="nav-link">
+                        <span class="material-symbols-outlined nav-icon">book</span>
+                        <span class="nav-text">Материалы</span>
+                    </a>
+                    <a href="calendar.html" class="nav-link">
+                        <span class="material-symbols-outlined nav-icon">calendar_month</span>
+                        <span class="nav-text">Календарь</span>
+                    </a>
+                    <a href="schedule.html" class="nav-link">
+                        <span class="material-symbols-outlined nav-icon">schedule</span>
+                        <span class="nav-text">Расписание</span>
+                    </a>
+                    <a href="chat.html" class="nav-link">
+                        <span class="material-symbols-outlined nav-icon">chat</span>
+                        <span class="nav-text">Чат</span>
+                    </a>
+                    <a href="journal.html" class="nav-link">
+                        <span class="material-symbols-outlined nav-icon">edit_note</span>
+                        <span class="nav-text">Журнал</span>
+                    </a>
+                    <a href="information.html" class="nav-link">
+                        <span class="material-symbols-outlined nav-icon">info</span>
+                        <span class="nav-text">Информация</span>
+                    </a>
+                </div>
+                
+                <!-- Профиль пользователя -->
+                <div class="mobile-user-profile">
+                    <div class="profile-content">
+                        <div class="avatar" id="mobile-profile-avatar">И</div>
+                        <div class="profile-info">
+                            <p class="profile-name" id="mobile-profile-name">Иван Студент</p>
+                            <p class="profile-email" id="mobile-profile-email">student@uniportal.ru</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Затемнение для мобильного меню -->
+        <div id="mobile-nav-overlay" class="mobile-nav-overlay"></div>
+        
+        <!-- Основной контент -->
+        <main class="main-content">
+            <!-- Верхняя панель -->
+            <header class="main-header">
+                <div class="header-content">
+                    <!-- Левая часть: гамбургер-меню и заголовок -->
+                    <div class="header-left">
+                        <button id="open-mobile-nav" class="mobile-menu-btn">
+                            <span class="material-symbols-outlined menu-icon">menu</span>
+                        </button>
+                        <div class="header-titles">
+                            <h1 class="page-title">Профиль и настройки</h1>
+                            <p class="page-subtitle">Управление профилем и настройками аккаунта</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Правая часть: поиск, уведомления, профиль -->
+                    <div class="header-right">
+                        <!-- Поиск (скрыт на мобильных) -->
+                        <div class="search-container">
+                            <span class="material-symbols-outlined search-icon">search</span>
+                            <input type="text" placeholder="Поиск..." class="search-input">
+                        </div>
+                        
+                        <!-- Кнопка уведомлений -->
+                        <button class="notification-btn">
+                            <span class="material-symbols-outlined">notifications</span>
+                            <span class="notification-badge">
+                                <span class="notification-ping"></span>
+                                <span class="notification-dot"></span>
+                            </span>
+                        </button>
+                        
+                        <!-- Профиль (только аватар на мобильных) -->
+                        <a href="profile.html" class="profile-btn">
+                            <div class="mobile-avatar" id="header-profile-avatar">И</div>
+                            <span class="profile-name-text" id="header-profile-name">Иван</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Описание для мобильных -->
+                <p class="mobile-subtitle">Управление профилем и настройками аккаунта</p>
+            </header>
+            
+            <!-- Основное содержимое -->
+            <div class="content-area">
+                <div class="content-container">
+                    <!-- Основная информация профиля -->
+                    <div class="profile-section">
+                        <div class="profile-card">
+                            <h2 class="profile-card-title">Основная информация</h2>
+                            
+                            <div class="profile-info-grid">
+                                <!-- Фото профиля -->
+                                <div class="profile-avatar-section">
+                                    <div class="profile-avatar-wrapper">
+                                        <div class="profile-avatar" id="main-profile-avatar">
+                                            <span class="avatar-text">И</span>
+                                        </div>
+                                        <button class="avatar-change-btn" onclick="document.getElementById('avatarInput').click()">
+                                            <span class="material-symbols-outlined">photo_camera</span>
+                                        </button>
+                                        <input type="file" id="avatarInput" accept="image/*" style="display: none;">
                                     </div>
-                                    <button type="button" class="avatar-change-btn">Изменить фото</button>
+                                    <div class="profile-avatar-info">
+                                        <p class="profile-role-student">Студент</p>
+                                        <p class="profile-activity">В системе с 15 сент. 2024</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Личная информация -->
+                                <div class="personal-info">
+                                    <div class="form-group">
+                                        <label class="form-label" for="profileNickname">Никнейм</label>
+                                        <input type="text" id="profileNickname" class="form-input" value="ИванСтудент">
+                                        <p class="form-hint">Ваш уникальный никнейм в системе</p>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="form-label" for="profileEmail">Email</label>
+                                        <input type="email" id="profileEmail" class="form-input" value="student@uniportal.ru">
+                                        <p class="form-hint">Используется для входа и уведомлений</p>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="form-label" for="profileGroup">Группа</label>
+                                        <input type="text" id="profileGroup" class="form-input" value="ИСП-21-1" disabled>
+                                        <p class="form-hint">Группа назначается при регистрации и не может быть изменена</p>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="form-label" for="profileRole">Роль</label>
+                                        <input type="text" id="profileRole" class="form-input" value="Студент" disabled>
+                                        <p class="form-hint">Ваша роль в системе</p>
+                                    </div>
                                 </div>
                             </div>
-
-                            <div class="form-grid">
-                                <div class="input-group">
-                                    <label for="username" class="form-label">Никнейм</label>
-                                    <input type="text" id="username" class="form-input" 
-                                           value="Студент_2024" placeholder="Введите ваш никнейм">
-                                    <div class="form-text">Это имя будет видно другим пользователям</div>
-                                </div>
-
-                                <div class="input-group">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" id="email" class="form-input" 
-                                           value="student@university.edu" placeholder="Введите ваш email">
-                                    <div class="form-text">Используется для входа и уведомлений</div>
-                                </div>
-
-                                <div class="input-group">
-                                    <label class="form-label">Группа</label>
-                                    <div class="group-display">ИВТ-101</div>
-                                    <div class="form-text">Группу нельзя изменить после регистрации</div>
-                                </div>
-
-                                <div class="input-group">
-                                    <label for="bio" class="form-label">О себе</label>
-                                    <textarea id="bio" class="form-input" rows="4" 
-                                              placeholder="Расскажите немного о себе..."></textarea>
-                                </div>
-                            </div>
-
+                            
                             <div class="form-actions">
-                                <button type="submit" class="btn btn--primary">Сохранить изменения</button>
-                                <button type="button" class="btn btn--outline">Отмена</button>
+                                <button id="saveProfileBtn" class="btn-primary">
+                                    <span class="material-symbols-outlined">save</span>
+                                    Сохранить изменения
+                                </button>
                             </div>
-                        </form>
+                        </div>
                     </div>
-
-                    <!-- Безопасность -->
-                    <div class="profile-panel" id="security-panel">
-                        <h2>Безопасность</h2>
-                        <div class="security-sections">
-                            <div class="security-section">
-                                <h3>Смена пароля</h3>
-                                <form class="password-form">
-                                    <div class="input-group">
-                                        <label for="currentPassword" class="form-label">Текущий пароль</label>
-                                        <input type="password" id="currentPassword" class="form-input">
-                                    </div>
-                                    <div class="input-group">
-                                        <label for="newPassword" class="form-label">Новый пароль</label>
-                                        <input type="password" id="newPassword" class="form-input">
-                                    </div>
-                                    <div class="input-group">
-                                        <label for="confirmPassword" class="form-label">Подтвердите пароль</label>
-                                        <input type="password" id="confirmPassword" class="form-input">
-                                    </div>
-                                    <button type="submit" class="btn btn--primary">Сменить пароль</button>
-                                </form>
+                    
+                    <!-- Статистика активности -->
+                    <div class="stats-section">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <span class="material-symbols-outlined">book</span>
+                                </div>
+                                <div class="stat-info">
+                                    <p class="stat-value">42</p>
+                                    <p class="stat-label">Пройдено материалов</p>
+                                </div>
                             </div>
-
-                            <div class="security-section">
-                                <h3>Активные сессии</h3>
-                                <div class="sessions-list">
-                                    <div class="session-item">
-                                        <div class="session-info">
-                                            <div class="session-device">Chrome на Windows</div>
-                                            <div class="session-location">Москва, Россия</div>
-                                            <div class="session-time">Текущая сессия</div>
-                                        </div>
-                                        <button class="btn btn--outline btn--small">Завершить</button>
-                                    </div>
+                            
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <span class="material-symbols-outlined">task_alt</span>
+                                </div>
+                                <div class="stat-info">
+                                    <p class="stat-value">85%</p>
+                                    <p class="stat-label">Прогресс обучения</p>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <span class="material-symbols-outlined">forum</span>
+                                </div>
+                                <div class="stat-info">
+                                    <p class="stat-value">156</p>
+                                    <p class="stat-label">Сообщений в чате</p>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <span class="material-symbols-outlined">calendar_month</span>
+                                </div>
+                                <div class="stat-info">
+                                    <p class="stat-value">95%</p>
+                                    <p class="stat-label">Посещаемость</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Уведомления -->
-                    <div class="profile-panel" id="notifications-panel">
-                        <h2>Уведомления</h2>
-                        <div class="notification-settings">
-                            <div class="setting-item">
-                                <div class="setting-info">
-                                    <div class="setting-title">Уведомления о новых материалах</div>
-                                    <div class="setting-description">Получать уведомления о новых лекциях и заданиях</div>
+                    
+                    <!-- Настройки -->
+                    <div class="settings-section">
+                        <div class="settings-grid">
+                            <!-- Уведомления -->
+                            <div class="settings-card">
+                                <h3 class="settings-card-title">
+                                    <span class="material-symbols-outlined">notifications</span>
+                                    Уведомления
+                                </h3>
+                                
+                                <div class="settings-options">
+                                    <div class="setting-option">
+                                        <label class="setting-label">
+                                            <span>Новые объявления</span>
+                                            <span class="setting-description">Уведомлять о новых объявлениях</span>
+                                        </label>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="setting-option">
+                                        <label class="setting-label">
+                                            <span>Дедлайны заданий</span>
+                                            <span class="setting-description">Напоминания о сроках сдачи</span>
+                                        </label>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="setting-option">
+                                        <label class="setting-label">
+                                            <span>Личные сообщения</span>
+                                            <span class="setting-description">Уведомления о новых сообщениях</span>
+                                        </label>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="setting-option">
+                                        <label class="setting-label">
+                                            <span>Обновления расписания</span>
+                                            <span class="setting-description">Изменения в расписании занятий</span>
+                                        </label>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
                                 </div>
-                                <label class="switch">
-                                    <input type="checkbox" checked>
-                                    <span class="slider"></span>
-                                </label>
                             </div>
-                            <div class="setting-item">
-                                <div class="setting-info">
-                                    <div class="setting-title">Уведомления о дедлайнах</div>
-                                    <div class="setting-description">Напоминания о сроках сдачи работ</div>
-                                </div>
-                                <label class="switch">
-                                    <input type="checkbox" checked>
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                            <div class="setting-item">
-                                <div class="setting-info">
-                                    <div class="setting-title">Сообщения в чате</div>
-                                    <div class="setting-description">Уведомления о новых сообщениях</div>
-                                </div>
-                                <label class="switch">
-                                    <input type="checkbox">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Внешний вид -->
-                    <div class="profile-panel" id="appearance-panel">
-                        <h2>Внешний вид</h2>
-                        <div class="appearance-settings">
-                            <div class="theme-selector">
-                                <h3>Тема оформления</h3>
+                            
+                            <!-- Внешний вид -->
+                            <div class="settings-card">
+                                <h3 class="settings-card-title">
+                                    <span class="material-symbols-outlined">palette</span>
+                                    Внешний вид
+                                </h3>
+                                
                                 <div class="theme-options">
-                                    <label class="theme-option">
-                                        <input type="radio" name="theme" value="light" checked>
-                                        <div class="theme-preview light-theme">
-                                            <div class="theme-name">Светлая</div>
-                                        </div>
-                                    </label>
-                                    <label class="theme-option">
-                                        <input type="radio" name="theme" value="dark">
-                                        <div class="theme-preview dark-theme">
-                                            <div class="theme-name">Темная</div>
-                                        </div>
-                                    </label>
-                                    <label class="theme-option">
-                                        <input type="radio" name="theme" value="auto">
-                                        <div class="theme-preview auto-theme">
-                                            <div class="theme-name">Системная</div>
-                                        </div>
-                                    </label>
+                                    <button class="theme-option active" data-theme="light">
+                                        <span class="material-symbols-outlined">light_mode</span>
+                                        Светлая
+                                    </button>
+                                    <button class="theme-option" data-theme="dark">
+                                        <span class="material-symbols-outlined">dark_mode</span>
+                                        Тёмная
+                                    </button>
+                                    <button class="theme-option" data-theme="auto">
+                                        <span class="material-symbols-outlined">devices</span>
+                                        Авто
+                                    </button>
+                                </div>
+                                
+                                <div class="settings-options">
+                                    <div class="setting-option">
+                                        <label class="setting-label">
+                                            <span>Компактный режим</span>
+                                            <span class="setting-description">Уменьшить отступы интерфейса</span>
+                                        </label>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Конфиденциальность -->
+                            <div class="settings-card">
+                                <h3 class="settings-card-title">
+                                    <span class="material-symbols-outlined">lock</span>
+                                    Конфиденциальность
+                                </h3>
+                                
+                                <div class="settings-options">
+                                    <div class="setting-option">
+                                        <label class="setting-label">
+                                            <span>Видимый профиль</span>
+                                            <span class="setting-description">Другие студенты могут видеть ваш профиль</span>
+                                        </label>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="setting-option">
+                                        <label class="setting-label">
+                                            <span>Показывать прогресс</span>
+                                            <span class="setting-description">Показывать ваш прогресс обучения</span>
+                                        </label>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="setting-option">
+                                        <label class="setting-label">
+                                            <span>Онлайн статус</span>
+                                            <span class="setting-description">Показывать, когда вы онлайн</span>
+                                        </label>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Безопасность -->
+                            <div class="settings-card">
+                                <h3 class="settings-card-title">
+                                    <span class="material-symbols-outlined">security</span>
+                                    Безопасность
+                                </h3>
+                                
+                                <div class="security-options">
+                                    <button class="security-btn" id="changePasswordBtn">
+                                        <span class="material-symbols-outlined">key</span>
+                                        Изменить пароль
+                                    </button>
+                                    
+                                    <button class="security-btn" id="sessionHistoryBtn">
+                                        <span class="material-symbols-outlined">history</span>
+                                        История сессий
+                                    </button>
+                                    
+                                    <button class="security-btn logout-btn" id="logoutBtn">
+                                        <span class="material-symbols-outlined">logout</span>
+                                        Выйти из аккаунта
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            
+            <!-- Футер -->
+            <footer class="main-footer">
+                <p class="footer-text">© 2025 UniPortal. Академическая платформа.</p>
+            </footer>
+        </main>
+        
+        <!-- Кнопка переключения темы -->
+        <button id="theme-toggle" class="theme-toggle">
+            <span class="material-symbols-outlined theme-icon">dark_mode</span>
+        </button>
+        
+        <!-- Модальное окно смены пароля -->
+        <div id="passwordModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Изменение пароля</h3>
+                    <button class="modal-close" id="closePasswordModal">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">    
+                        <label class="form-label" for="currentPassword">Текущий пароль</label>
+                        <input type="password" id="currentPassword" class="form-input">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="newPassword">Новый пароль</label>
+                        <input type="password" id="newPassword" class="form-input">
+                        <p class="form-hint">Минимум 8 символов, включая цифры и буквы</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="confirmPassword">Подтвердите пароль</label>
+                        <input type="password" id="confirmPassword" class="form-input">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" id="cancelPasswordChange">Отмена</button>
+                    <button class="btn-primary" id="savePasswordBtn">Сохранить пароль</button>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
 
+    <script src="scripts/session.js"></script>
+    <script>
+        window.addEventListener('load', () => {
+            checkAuth("index.html");
+        });
+    </script>
     <script src="scripts/profile.js"></script>
-    <script src="scripts/main.js"></script>
-</body>
+
+    </body>
 </html>
