@@ -58,9 +58,9 @@
                 <!-- Профиль пользователя -->
                 <div class="user-profile">
                     <div class="profile-content">
-                        <div class="avatar">А</div>
+                        <div class="avatar user-profile-name-fletter"></div>
                         <div class="profile-info">
-                            <p class="profile-name">Алексей Иванов</p>
+                            <p class="profile-name user-profile-name"></p>
                             <p class="profile-email">студент@университет.ru</p>
                         </div>
                         <a href="profile.html" class="profile-link">
@@ -120,9 +120,9 @@
                 <!-- Профиль пользователя -->
                 <div class="mobile-user-profile">
                     <div class="profile-content">
-                        <div class="avatar">А</div>
+                        <div class="avatar user-profile-name-fletter"></div>
                         <div class="profile-info">
-                            <p class="profile-name">Алексей Иванов</p>
+                            <p class="profile-name user-profile-name"></p>
                             <p class="profile-email">студент@университет.ru</p>
                         </div>
                     </div>
@@ -145,7 +145,7 @@
                         </button>
                         <div class="header-titles">
                             <h1 class="page-title">Панель управления</h1>
-                            <p class="page-subtitle">Добро пожаловать, Алексей! Вот ваша сводка на сегодня.</p>
+                            <p class="page-subtitle">Добро пожаловать, <span class="user-profile-name"></span>! Вот ваша сводка на сегодня.</p>
                         </div>
                     </div>
                     
@@ -168,14 +168,14 @@
                         
                         <!-- Профиль (только аватар на мобильных) -->
                         <a href="profile.html" class="profile-btn">
-                            <div class="mobile-avatar">А</div>
-                            <span class="profile-name-text">Алексей</span>
+                            <div class="mobile-avatar avatar-text user-profile-name-fletter"></div>
+                            <span class="profile-name-text user-profile-name"></span>
                         </a>
                     </div>
                 </div>
                 
                 <!-- Описание для мобильных -->
-                <p class="mobile-subtitle">Добро пожаловать, Алексей! Вот ваша сводка на сегодня.</p>
+                <p class="mobile-subtitle">Добро пожаловать, <span class="user-profile-name"></span>! Вот ваша сводка на сегодня.</p>
             </header>
             
             <!-- Основное содержимое -->
@@ -373,12 +373,10 @@
     <script src="scripts/session.js"></script>
     <script>
         window.addEventListener('load', () => {
-            const user = getCurrentUser();
-            
-            if (!user) {
-            }
+            checkAuth("index.html");
         });
     </script>
+    <script src="scripts/per-main.js"></script>
 
 </body>
 </html>
