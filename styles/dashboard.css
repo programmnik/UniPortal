@@ -572,12 +572,14 @@ body {
 
 @media (min-width: 768px) {
     .content-area {
+        margin-left: 256px;
         padding: 1.5rem;
     }
 }
 
 @media (min-width: 1024px) {
     .content-area {
+        margin-left: 256px;
         padding: 2rem;
     }
 }

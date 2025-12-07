@@ -20,7 +20,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
         });
 
         const emailInput = document.getElementById('profileEmail');
-        emailInput.value = user.email;
+        if (emailInput && user.email) {
+            emailInput.value = user.email;
+        }
         
         const userRoleID = document.getElementById('profileRole');
         if (userRoleID) {
