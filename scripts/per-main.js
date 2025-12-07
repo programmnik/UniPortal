@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
         const userEmail = document.querySelectorAll('.profile-email');
         if(userEmail && user.email){
             userEmail.forEach(em => {
-                let shortEmail = user.email
+                const shortEmail = user.email;
                 if(shortEmail.length > 17){
                     const atIndex = shortEmail.indexOf('@');
 
@@ -52,11 +52,14 @@ document.addEventListener('DOMContentLoaded', ()=>{
                             }
                         }
 
-                        shortEmail = localPart + '@' + domainPart;
+                        em.textContent = localPart + '@' + domainPart;
                     }
 
                 }
-                em.textContent = shortEmail;
+                else
+                {
+                    em.textContent = user.email;
+                }
             });
         }
 
