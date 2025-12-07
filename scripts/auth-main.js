@@ -1,5 +1,3 @@
-// scripts/auth.js - Основная логика для страницы входа
-
 document.addEventListener('DOMContentLoaded', function() {
     // Элементы DOM
     const themeToggle = document.getElementById('theme-toggle');
