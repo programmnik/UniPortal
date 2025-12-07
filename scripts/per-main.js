@@ -21,10 +21,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
         }    
 
         const userEmail = document.querySelectorAll('.profile-email');
-        if(userEmail){
+        if(userEmail && user.email){
             userEmail.forEach(em => {
                 let shortEmail = user.email
-                if(shortEmail.length > 15){
+                if(shortEmail.length > 17){
                     const atIndex = shortEmail.indexOf('@');
 
                     if(atIndex !== -1){
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
                         if(domainPart.length > 9){
                             const dotIndex = domainPart.lastIndexOf('.');
-                            if(domainPart !== -1){
+                            if(dotIndex !== -1){
                                 const domainName = domainPart.substring(0, dotIndex);
                                 const domainExt = domainPart.substring(dotIndex);
 
