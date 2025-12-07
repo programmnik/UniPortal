@@ -2,24 +2,30 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const user = getCurrentUser();
     if(user){
         const profileNameElements = document.querySelectorAll('.user-profile-name');
-        profileNameElements.forEach(element => {
-            element.textContent = user.nickname;
-        });
+        if(profileNameElements){
+            profileNameElements.forEach(element => {
+                element.textContent = user.nickname;
+            });
+        }
 
         const nicknameInput = document.getElementById('profileNickname');
-        nicknameInput.value = user.nickname;
+        if(nicknameInput){
+            nicknameInput.value = user.nickname;
+        }
 
         const profileNameLetter = document.querySelectorAll('.user-profile-name-fletter');
-        console.log('Найдено аватаров:', profileNameLetter.length);
-        profileNameLetter.forEach(letter => {
-            letter.textContent = user.nickname ? user.nickname.charAt(0).toUpperCase() : "?";
-        });
+        if(profileNameLetter){
+            profileNameLetter.forEach(letter => {
+                letter.textContent = user.nickname ? user.nickname.charAt(0).toUpperCase() : "?";
+            });
+        }    
 
         const userEmail = document.querySelectorAll('.profile-email');
-        console.log('Найдено email элементов:', userEmail.length);
-        userEmail.forEach(em => {
-            em.textContent = user.email;
-        });
+        if(userEmail){
+            userEmail.forEach(em => {
+                em.textContent = user.email;
+            });
+        }
 
         const emailInput = document.getElementById('profileEmail');
         if (emailInput && user.email) {
