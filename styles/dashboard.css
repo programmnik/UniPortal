@@ -979,6 +979,12 @@ body {
     text-align: center;
 }
 
+@media (min-width: 768px) {
+    .main-footer {
+        margin-left: 256px ;
+    }
+}
+
 .footer-text {
     font-size: 0.875rem;
     color: var(--gray-500);

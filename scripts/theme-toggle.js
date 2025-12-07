@@ -1,74 +1,100 @@
 // Theme toggle functionality
 
 document.addEventListener('DOMContentLoaded', function() {
-    const themeToggle = document.getElementById('theme-toggle');
     const themeButton = document.getElementById('theme-toggle-button');
+    const themeIcon = themeButton.querySelector('.theme-icon');
     
-    // Check for saved theme preference
+    // Проверяем сохраненную тему
     const savedTheme = localStorage.getItem('theme') || 'light';
     
-    // Apply saved theme
+    // Применяем сохраненную тему
     if (savedTheme === 'dark') {
         document.body.classList.add('dark-theme');
-        if (themeToggle) themeToggle.checked = true;
+        document.body.classList.remove('light-theme');
+        updateThemeIcon('dark', themeIcon);
     } else {
+        document.body.classList.add('light-theme');
         document.body.classList.remove('dark-theme');
-        if (themeToggle) themeToggle.checked = false;
+        updateThemeIcon('light', themeIcon);
     }
     
-    // Theme toggle functionality
-    if (themeToggle && themeButton) {
-        themeToggle.addEventListener('change', function() {
-            if (this.checked) {
-                document.body.classList.add('dark-theme');
-                localStorage.setItem('theme', 'dark');
-                
-                // Dispatch custom event for theme change
-                window.dispatchEvent(new CustomEvent('themeChanged', {
-                    detail: { theme: 'dark' }
-                }));
-            } else {
+    // Обработчик клика по кнопке переключения темы
+    if (themeButton) {
+        themeButton.addEventListener('click', function() {
+            const isDarkTheme = document.body.classList.contains('dark-theme');
+            
+            if (isDarkTheme) {
+                // Переключаем на светлую тему
                 document.body.classList.remove('dark-theme');
+                document.body.classList.add('light-theme');
                 localStorage.setItem('theme', 'light');
+                updateThemeIcon('light', themeIcon);
                 
                 window.dispatchEvent(new CustomEvent('themeChanged', {
                     detail: { theme: 'light' }
                 }));
+            } else {
+                // Переключаем на темную тему
+                document.body.classList.remove('light-theme');
+                document.body.classList.add('dark-theme');
+                localStorage.setItem('theme', 'dark');
+                updateThemeIcon('dark', themeIcon);
+                
+                window.dispatchEvent(new CustomEvent('themeChanged', {
+                    detail: { theme: 'dark' }
+                }));
             }
         });
         
-        // Add keyboard support
+        // Добавляем поддержку клавиатуры
         themeButton.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                themeToggle.click();
+                themeButton.click();
             }
         });
     }
     
-    // Listen for theme changes from other components
+    // Слушаем изменения темы от других компонентов
     window.addEventListener('themeChanged', function(e) {
         console.log('Theme changed to:', e.detail.theme);
         
-        // Update any theme-dependent elements here
+        // Обновляем элементы, зависящие от темы
         updateThemeDependentElements(e.detail.theme);
     });
     
-    // Initialize theme-dependent elements
+    // Инициализируем элементы, зависящие от темы
     updateThemeDependentElements(savedTheme);
 });
 
-// Update elements that depend on theme
+// Обновляет иконку темы
+function updateThemeIcon(theme, iconElement) {
+    if (!iconElement) return;
+    
+    if (theme === 'dark') {
+        iconElement.textContent = 'light_mode'; // Иконка для переключения на светлую тему
+    } else {
+        iconElement.textContent = 'dark_mode'; // Иконка для переключения на темную тему
+    }
+}
+
+// Обновляет элементы, зависящие от темы
 function updateThemeDependentElements(theme) {
-    // Update meta theme-color for mobile browsers
+    // Обновляем meta theme-color для мобильных браузеров
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-    if (metaThemeColor) {
+    if (!metaThemeColor) {
+        // Создаем meta тег, если его нет
+        const meta = document.createElement('meta');
+        meta.name = 'theme-color';
+        meta.content = theme === 'dark' ? '#0f172a' : '#f8fafc';
+        document.head.appendChild(meta);
+    } else {
         metaThemeColor.setAttribute('content', 
             theme === 'dark' ? '#0f172a' : '#f8fafc'
         );
     }
     
-    // Update images based on theme
+    // Обновляем изображения в зависимости от темы
     const themeImages = document.querySelectorAll('[data-theme-image]');
     themeImages.forEach(img => {
         const lightSrc = img.getAttribute('data-light-src');
@@ -81,7 +107,7 @@ function updateThemeDependentElements(theme) {
         }
     });
     
-    // Update SVG fills if needed
+    // Обновляем SVG заливку, если нужно
     const svgElements = document.querySelectorAll('[data-theme-fill]');
     svgElements.forEach(svg => {
         const lightFill = svg.getAttribute('data-light-fill');
@@ -95,29 +121,50 @@ function updateThemeDependentElements(theme) {
     });
 }
 
-// Function to toggle theme programmatically
+// Функция для переключения темы программно
 function toggleTheme() {
-    const themeToggle = document.getElementById('theme-toggle');
-    if (themeToggle) {
-        themeToggle.click();
+    const themeButton = document.getElementById('theme-toggle-button');
+    if (themeButton) {
+        themeButton.click();
     }
 }
 
-// Function to set specific theme
+// Функция для установки конкретной темы
 function setTheme(theme) {
-    const themeToggle = document.getElementById('theme-toggle');
-    if (themeToggle) {
-        if (theme === 'dark' && !themeToggle.checked) {
-            themeToggle.checked = true;
-            themeToggle.dispatchEvent(new Event('change'));
-        } else if (theme === 'light' && themeToggle.checked) {
-            themeToggle.checked = false;
-            themeToggle.dispatchEvent(new Event('change'));
-        }
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    
+    if (theme === 'dark' && currentTheme !== 'dark') {
+        document.body.classList.remove('light-theme');
+        document.body.classList.add('dark-theme');
+        localStorage.setItem('theme', 'dark');
+        
+        const themeButton = document.getElementById('theme-toggle-button');
+        const themeIcon = themeButton?.querySelector('.theme-icon');
+        updateThemeIcon('dark', themeIcon);
+        
+        updateThemeDependentElements('dark');
+        
+        window.dispatchEvent(new CustomEvent('themeChanged', {
+            detail: { theme: 'dark' }
+        }));
+    } else if (theme === 'light' && currentTheme !== 'light') {
+        document.body.classList.remove('dark-theme');
+        document.body.classList.add('light-theme');
+        localStorage.setItem('theme', 'light');
+        
+        const themeButton = document.getElementById('theme-toggle-button');
+        const themeIcon = themeButton?.querySelector('.theme-icon');
+        updateThemeIcon('light', themeIcon);
+        
+        updateThemeDependentElements('light');
+        
+        window.dispatchEvent(new CustomEvent('themeChanged', {
+            detail: { theme: 'light' }
+        }));
     }
 }
 
-// Detect system preference
+// Определяем системные настройки темы
 function detectSystemTheme() {
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
         return 'dark';
@@ -125,18 +172,29 @@ function detectSystemTheme() {
     return 'light';
 }
 
-// Listen for system theme changes
+// Слушаем изменения системной темы
 if (window.matchMedia) {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    mediaQuery.addEventListener('change', (e) => {
-        // Only auto-switch if user hasn't manually set a preference
+    
+    const handleSystemThemeChange = (e) => {
+        // Автоматически переключаемся только если пользователь не установил предпочтение вручную
         if (!localStorage.getItem('theme')) {
             setTheme(e.matches ? 'dark' : 'light');
         }
-    });
+    };
+    
+    mediaQuery.addEventListener('change', handleSystemThemeChange);
 }
 
-// Export functions for use in other modules
+// Инициализация при загрузке - если пользователь не выбрал тему, используем системную
+document.addEventListener('DOMContentLoaded', function() {
+    if (!localStorage.getItem('theme')) {
+        const systemTheme = detectSystemTheme();
+        setTheme(systemTheme);
+    }
+});
+
+// Экспортируем функции для использования в других модулях
 window.themeManager = {
     toggleTheme,
     setTheme,
