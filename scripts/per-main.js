@@ -15,9 +15,12 @@ document.addEventListener('DOMContentLoaded', ()=>{
         });
 
         const userEmail = document.querySelectorAll('.profile-email');
-        userEmail.forEach(email => {
-            email.textContent = user.email;
+        userEmail.forEach(em => {
+            em.textContent = user.email;
         });
+
+        const emailInput = document.getElementById('profileEmail');
+        emailInput.value = user.email;
         
         const userRoleID = document.getElementById('profileRole');
         if (userRoleID) {
