@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS admins (
+    admin_email TEXT PRIMARY KEY,
+    permissions_json TEXT DEFAULT '{}',
+    FOREIGN KEY (admin_email) REFERENCES users_quick(email) ON DELETE CASCADE
+);

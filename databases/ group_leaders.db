@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS group_leaders (
+    group_id TEXT NOT NULL,
+    leader_email TEXT NOT NULL,
+    PRIMARY KEY (group_id, leader_email),
+    FOREIGN KEY (group_id) REFERENCES groups_full(group_id) ON DELETE CASCADE,
+    FOREIGN KEY (leader_email) REFERENCES users_quick(email) ON DELETE CASCADE
+);

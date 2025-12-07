@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Стать старостой | UniPortal</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/auth.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Шапка -->
+    <header class="header header--internal">
+        <div class="container">
+            <div class="header__inner">
+                <a href="dashboard.html" class="logo">
+                    <div class="logo-icon">🎓</div>
+                    <span class="logo-text">UniPortal</span>
+                </a>
+
+                <button class="burger-menu" id="burgerMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
+                <nav class="nav" id="mainNav">
+                    <a href="materials.html" class="nav__link">
+                        <span class="nav-icon">📚</span>
+                        <span class="nav-text">Материалы</span>
+                    </a>
+                    <a href="calendar.html" class="nav__link">
+                        <span class="nav-icon">📅</span>
+                        <span class="nav-text">Календарь</span>
+                    </a>
+                    <a href="schedule.html" class="nav__link">
+                        <span class="nav-icon">🕒</span>
+                        <span class="nav-text">Расписание</span>
+                    </a>
+                    <a href="chat.html" class="nav__link">
+                        <span class="nav-icon">💬</span>
+                        <span class="nav-text">Чат</span>
+                    </a>
+                    <a href="journal.html" class="nav__link">
+                        <span class="nav-icon">📊</span>
+                        <span class="nav-text">Журнал</span>
+                    </a>
+                    <a href="info.html" class="nav__link">
+                        <span class="nav-icon">ℹ️</span>
+                        <span class="nav-text">Информация</span>
+                    </a>
+                </nav>
+
+                <div class="profile">
+                    <button class="profile-btn" id="profileBtn">
+                        <div class="profile-avatar">
+                            <div class="avatar-icon">👤</div>
+                        </div>
+                    </button>
+                    
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <!-- Тот же контент что и в dashboard -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="auth-page">
+        <div class="container">
+            <div class="auth-card headman-card">
+                <div class="auth-header">
+                    <a href="dashboard.html" class="back-link">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M19 12H5M12 19l-7-7 7-7" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        Назад в кабинет
+                    </a>
+                    <div class="auth-logo">
+                        <div class="logo-icon">👑</div>
+                        Стать старостой
+                    </div>
+                </div>
+
+                <div class="headman-content">
+                    <div class="headman-icon">👑</div>
+                    <h1>Получить права старосты</h1>
+                    <p class="headman-description">
+                        Для получения прав старосты вашей группы введите специальный код, 
+                        который можно получить у администратора системы.
+                    </p>
+
+                    <form class="headman-form" id="headmanForm">
+                        <div class="input-group">
+                            <input type="text" id="headmanCode" class="auth-input" required 
+                                   placeholder="Введите код старосты">
+                            <label for="headmanCode" class="auth-label">Код старосты</label>
+                        </div>
+
+                        <div class="form-info">
+                            <div class="info-item">
+                                <span class="info-icon">ℹ️</span>
+                                <span class="info-text">Код можно получить у администратора системы</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-icon">⚠️</span>
+                                <span class="info-text">Права старосты дают доступ к управлению журналом группы</span>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="auth-submit headman-submit">
+                            <span class="submit-icon">👑</span>
+                            Получить права старосты
+                        </button>
+                    </form>
+
+                    <div class="headman-features">
+                        <h3>Возможности старосты:</h3>
+                        <ul class="features-list">
+                            <li>📊 Управление журналом посещений</li>
+                            <li>✅ Подтверждение пропусков студентов</li>
+                            <li>📋 Просмотр статистики группы</li>
+                            <li>👥 Модерация чата группы</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="authMessage" class="auth-message"></div>
+            </div>
+        </div>
+    </main>
+
+    <script src="scripts/headman.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
+</html>
