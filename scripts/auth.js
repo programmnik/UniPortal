@@ -1,23 +1,40 @@
 const loginForm = document.getElementById('loginForm');
 const registerForm = document.getElementById('registerForm');
 const switchText = document.getElementById('switchText');
+let registerTab;
+let loginTab;
 
 let isLoginView = true;
 
 function toggleAuthView(event) {
+    registerTab = document.getElementById('registerTab');
+    loginTab = document.getElementById('loginTab');
     if(event){
         event.preventDefault();
     }
 
     if(isLoginView){
+        if (loginTab && registerTab) {
+            loginTab.classList.remove('active');
+            registerTab.classList.add('active');
+        } else {
+            alert('Элементы не найдены!');
+        }
         loginForm.style.display = 'none';
         registerForm.style.display = 'block';
         switchText.innerHTML = 'Уже есть аккаунт? <a href="#" id="switchLink">Войти</a>';
-        
+        document.getElementById('loginTab').addEventListener('click', toggleAuthView);
     }else{
+        if (loginTab && registerTab) {
+            loginTab.classList.add('active');
+            registerTab.classList.remove('active');
+        } else {
+            alert('Элементы не найдены!');
+        }
         loginForm.style.display = 'block';
         registerForm.style.display = 'none';
         switchText.innerHTML = 'Ещё нет аккаунта? <a href="#" id="switchLink">Зарегистрироваться</a>';
+        document.getElementById('registerTab').addEventListener('click', toggleAuthView);
     }
 
     isLoginView = !isLoginView;
@@ -112,6 +129,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
     if(switchText){
         switchText.innerHTML = 'Ещё нет аккаунта? <a href="#" id="switchLink">Зарегистрироваться</a>';
+    }
+
+    if(document.getElementById('registerTab')){
+        document.getElementById('registerTab').addEventListener('click', toggleAuthView);
     }
     
     if(document.getElementById('switchLink')){
