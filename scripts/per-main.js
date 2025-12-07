@@ -23,7 +23,40 @@ document.addEventListener('DOMContentLoaded', ()=>{
         const userEmail = document.querySelectorAll('.profile-email');
         if(userEmail){
             userEmail.forEach(em => {
-                em.textContent = user.email;
+                let shortEmail = user.email
+                if(shortEmail.length > 15){
+                    const atIndex = shortEmail.indexOf('@');
+
+                    if(atIndex !== -1){
+                        let localPart = shortEmail.substring(0, atIndex);
+                        let domainPart = shortEmail.substring(atIndex + 1);
+
+                        if(localPart.length > 5){
+                            localPart = localPart.substring(0,5) + "*";
+                        }
+
+                        if(domainPart.length > 9){
+                            const dotIndex = domainPart.lastIndexOf('.');
+                            if(domainPart !== -1){
+                                const domainName = domainPart.substring(0, dotIndex);
+                                const domainExt = domainPart.substring(dotIndex);
+
+                                if(domainName.length > (9-domainExt.length - 1)){
+                                    const keepChars = Math.max(1, 9 - domainExt.length - 2);
+                                    domainPart = ((7 - domainExt.length) <= 0) 
+                                        ? domainName.substring(0, keepChars) + '*' + domainExt 
+                                        : domainName.substring(0, 1) + '*' + domainExt.substring(0, 6) + '*';
+                                }
+                            }else{
+                                domainPart = domainPart.substring(0, 9) + '*';
+                            }
+                        }
+
+                        shortEmail = localPart + '@' + domainPart;
+                    }
+
+                }
+                em.textContent = shortEmail;
             });
         }
 
@@ -38,9 +71,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
         }
 
         const userRoleElement = document.querySelectorAll('.profileRole');
-        userRoleElement.forEach(roleElement => {
-            roleElement.textContent = user.role;
-        });
+        if(userRoleElement){
+            userRoleElement.forEach(roleElement => {
+                roleElement.textContent = user.role;
+            });
+        }
 
         // 3. Управление видимостью элементов по ролям (Навигация)
         // В соответствии с ТЗ, Администратору доступна админка.
