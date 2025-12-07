@@ -72,9 +72,9 @@ function updateThemeIcon(theme, iconElement) {
     if (!iconElement) return;
     
     if (theme === 'dark') {
-        iconElement.textContent = 'light_mode'; // Иконка для переключения на светлую тему
+        iconElement.textContent = 'dark_mode'; // Иконка для переключения на светлую тему
     } else {
-        iconElement.textContent = 'dark_mode'; // Иконка для переключения на темную тему
+        iconElement.textContent = 'light_mode'; // Иконка для переключения на темную тему
     }
 }
 
