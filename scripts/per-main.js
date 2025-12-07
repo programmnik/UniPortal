@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', ()=>{
+window.addEventListener('load', () => {
     const user = getCurrentUser();
     if(user){
         const profileNameElements = document.querySelectorAll('.user-profile-name');
