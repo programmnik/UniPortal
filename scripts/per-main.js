@@ -1,4 +1,4 @@
-window.addEventListener('load', () => {
+document.addEventListener('DOMContentLoaded', ()=>{
     const user = getCurrentUser();
     if(user){
         const profileNameElements = document.querySelectorAll('.user-profile-name');
@@ -10,11 +10,13 @@ window.addEventListener('load', () => {
         nicknameInput.value = user.nickname;
 
         const profileNameLetter = document.querySelectorAll('.user-profile-name-fletter');
+        console.log('Найдено аватаров:', profileNameLetter.length);
         profileNameLetter.forEach(letter => {
             letter.textContent = user.nickname ? user.nickname.charAt(0).toUpperCase() : "?";
         });
 
         const userEmail = document.querySelectorAll('.profile-email');
+        console.log('Найдено email элементов:', userEmail.length);
         userEmail.forEach(em => {
             em.textContent = user.email;
         });
