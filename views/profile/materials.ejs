@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniPortal - Панель управления</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/dashboard.css">
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-200 light-theme">
+    <!-- Контейнер приложения -->
+    <div class="dashboard-container">
+        <!-- Боковая навигация (для десктопа) -->
+        <nav id="desktop-nav" class="desktop-nav">
+            <!-- Логотип -->
+            <div class="nav-header">
+                <div class="logo-container">
+                    <span class="material-symbols-outlined logo-icon">school</span>
+                    <span class="logo-text">UniPortal</span>
+                </div>
+            </div>
+            
+            <!-- Навигационные ссылки -->
+            <div class="nav-content">
+                <div class="nav-links">
+                    <a href="dashboard.html" class="nav-link">
+                        <span class="material-symbols-outlined nav-icon">dashboard</span>
+                        <span class="nav-text">Панель управления</span>
+                    </a>
+                    <a href="materials.html" class="nav-link active">
+                        <span class="material-symbols-outlined nav-icon">book</span>
+                        <span class="nav-text">Материалы</span>
+                    </a>
+                    <a href="calendar.html" class="nav-link">
+                        <span class="material-symbols-outlined nav-icon">calendar_month</span>
+                        <span class="nav-text">Календарь</span>
+                    </a>
+                    <a href="schedule.html" class="nav-link">
+                        <span class="material-symbols-outlined nav-icon">schedule</span>
+                        <span class="nav-text">Расписание</span>
+                    </a>
+                    <a href="chat.html" class="nav-link">
+                        <span class="material-symbols-outlined nav-icon">chat</span>
+                        <span class="nav-text">Чат</span>
+                    </a>
+                    <a href="journal.html" class="nav-link">
+                        <span class="material-symbols-outlined nav-icon">edit_note</span>
+                        <span class="nav-text">Журнал</span>
+                    </a>
+                    <a href="information.html" class="nav-link">
+                        <span class="material-symbols-outlined nav-icon">info</span>
+                        <span class="nav-text">Информация</span>
+                    </a>
+                </div>
+                
+                <!-- Профиль пользователя -->
+                <div class="user-profile">
+                    <div class="profile-content">
+                        <div class="avatar user-profile-name-fletter"></div>
+                        <div class="profile-info">
+                            <p class="profile-name user-profile-name"></p>
+                            <p class="profile-email">студент@университет.ru</p>
+                        </div>
+                        <a href="profile.html" class="profile-link">
+                            <span class="material-symbols-outlined">person</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Мобильная навигация (скрытое меню) -->
+        <nav id="mobile-nav" class="mobile-nav">
+            <!-- Логотип и кнопка закрытия -->
+            <div class="mobile-nav-header">
+                <div class="logo-container">
+                    <span class="material-symbols-outlined logo-icon">school</span>
+                    <span class="logo-text">UniPortal</span>
+                </div>
+                <button id="close-mobile-nav" class="close-nav-btn">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            
+            <!-- Навигационные ссылки -->
+            <div class="mobile-nav-content">
+                <div class="nav-links">
+                    <a href="dashboard.html" class="nav-link">
+                        <span class="material-symbols-outlined nav-icon">dashboard</span>
+                        <span class="nav-text">Панель управления</span>
+                    </a>
+                    <a href="materials.html" class="nav-link active">
+                        <span class="material-symbols-outlined nav-icon">book</span>
+                        <span class="nav-text">Материалы</span>
+                    </a>
+                    <a href="calendar.html" class="nav-link">
+                        <span class="material-symbols-outlined nav-icon">calendar_month</span>
+                        <span class="nav-text">Календарь</span>
+                    </a>
+                    <a href="schedule.html" class="nav-link">
+                        <span class="material-symbols-outlined nav-icon">schedule</span>
+                        <span class="nav-text">Расписание</span>
+                    </a>
+                    <a href="chat.html" class="nav-link">
+                        <span class="material-symbols-outlined nav-icon">chat</span>
+                        <span class="nav-text">Чат</span>
+                    </a>
+                    <a href="journal.html" class="nav-link">
+                        <span class="material-symbols-outlined nav-icon">edit_note</span>
+                        <span class="nav-text">Журнал</span>
+                    </a>
+                    <a href="information.html" class="nav-link">
+                        <span class="material-symbols-outlined nav-icon">info</span>
+                        <span class="nav-text">Информация</span>
+                    </a>
+                </div>
+                
+                <!-- Профиль пользователя -->
+                <div class="mobile-user-profile">
+                    <div class="profile-content">
+                        <div class="avatar user-profile-name-fletter"></div>
+                        <div class="profile-info">
+                            <p class="profile-name user-profile-name"></p>
+                            <p class="profile-email">студент@университет.ru</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Затемнение для мобильного меню -->
+        <div id="mobile-nav-overlay" class="mobile-nav-overlay"></div>
+        
+        <!-- Основной контент -->
+        <main class="main-content">
+            <!-- Верхняя панель (для мобильных) -->
+            <header class="main-header">
+                <div class="header-content">
+                    <!-- Левая часть: гамбургер-меню и заголовок -->
+                    <div class="header-left">
+                        <button id="open-mobile-nav" class="mobile-menu-btn">
+                            <span class="material-symbols-outlined menu-icon">menu</span>
+                        </button>
+                        <div class="header-titles">
+                            <h1 class="page-title">Материалы</h1>
+                        </div>
+                    </div>
+                    
+                    <!-- Правая часть: поиск, уведомления, профиль -->
+                    <div class="header-right">
+                        <!-- Поиск (скрыт на мобильных) -->
+                        <div class="search-container">
+                            <span class="material-symbols-outlined search-icon">search</span>
+                            <input type="text" placeholder="Поиск курсов, материалов..." class="search-input">
+                        </div>
+                        
+                        <!-- Кнопка уведомлений -->
+                        <button class="notification-btn">
+                            <span class="material-symbols-outlined">notifications</span>
+                            <span class="notification-badge">
+                                <span class="notification-ping"></span>
+                                <span class="notification-dot"></span>
+                            </span>
+                        </button>
+                        
+                        <!-- Профиль (только аватар на мобильных) -->
+                        <a href="profile.html" class="profile-btn">
+                            <div class="mobile-avatar avatar-text user-profile-name-fletter"></div>
+                            <span class="profile-name-text user-profile-name"></span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Описание для мобильных -->
+                <p class="mobile-subtitle">Добро пожаловать, <span class="user-profile-name"></span>! Вот ваша сводка на сегодня.</p>
+            </header>
+            
+            <!-- Футер -->
+            <footer class="main-footer">
+                <p class="footer-text">© 2025 UniPortal. Академическая платформа.</p>
+            </footer>
+        </main>
+        <!-- Кнопка переключения темы -->
+        <button id="theme-toggle-button" class="theme-toggle">
+            <span class="material-symbols-outlined theme-icon">dark_mode</span>
+        </button>
+    </div>
+
+    <script src="scripts/users.js"></script>
+    <script src="scripts/session.js"></script>
+    <!-- <script>
+        window.addEventListener('load', () => {
+            checkAuth("index.html");
+        });
+    </script> -->
+    <script src="scripts/per-main.js"></script>
+    <script src="scripts/theme-toggle.js"></script>
+
+</body>
+</html>

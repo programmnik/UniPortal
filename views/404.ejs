@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ru" class="light-theme">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Страница не найдена - UniPortal</title>
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/components.css">
+    <link rel="stylesheet" href="/styles/404/404.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="light-theme">
+    <!-- Заголовок -->
+    <header class="error-header">
+        <div class="container">
+            <div class="nav">
+                <div class="logo" onclick="window.location.href='/'">
+                    <div class="logo-icon">
+                        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M44 4H30.6666V17.3334H17.3334V30.6666H4V44H44V4Z" fill="#136dec"></path>
+                        </svg>
+                    </div>
+                    <span class="logo-text">UniPortal</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Основной контент -->
+    <main class="error-content">
+        <!-- Декоративные элементы -->
+        <div class="floating-elements">
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+        </div>
+        
+        <div class="container">
+            <div class="error-container">
+                <div class="error-number">404</div>
+                
+                <h1 class="error-title">Ошибка<br>Страница не найдена</h1>
+                
+                <p class="error-message">
+                    Похоже, страница, которую вы ищете, была перемещена, удалена 
+                    или никогда не существовала. Проверьте URL или вернитесь на главную страницу.
+                </p>
+                
+                <!-- Кнопки действий -->
+                <div class="error-actions">
+                    <a href="/" class="btn btn-primary">
+                        <i class="fas fa-home"></i>
+                        <span>На главную</span>
+                    </a>
+                    
+                    <button onclick="history.back()" class="btn btn-outline btn-back">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Вернуться назад</span>
+                    </button>
+                    
+                    <a href="/dashboard" class="btn btn-outline">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>В панель управления</span>
+                    </a>
+                </div>
+                
+                <!-- Дополнительная помощь -->
+                <div class="error-help">
+                    <div class="help-card">
+                        <h3>Нужна помощь?</h3>
+                        <p>
+                            Обратитесь к администратору вашей группы или 
+                            старосте для получения технической поддержки.
+                        </p>
+                    </div>
+                    
+                    <div class="help-card">
+                        <h3>Нашли ошибку?</h3>
+                        <p>
+                            Сообщите нам о проблеме, и мы постараемся её исправить 
+                            как можно скорее.
+                        </p>
+                    </div>
+                    
+                    <div class="help-card">
+                        <h3>Частые вопросы</h3>
+                        <p>
+                            Посетите раздел помощи на главной странице для 
+                            получения ответов на частые вопросы.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Футер -->
+    <footer class="error-footer">
+        <div class="container">
+            <p style="color: var(--text-secondary); margin-bottom: 0.5rem;">
+                © 2025 UniPortal. Академическая платформа.
+            </p>
+            <p style="font-size: 0.875rem; color: var(--text-tertiary);">
+                <a href="/" style="color: var(--primary-color); text-decoration: none;">
+                    На главную
+                </a> 
+                • 
+                <a href="/login" style="color: var(--primary-color); text-decoration: none;">
+                    Войти в систему
+                </a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Проверяем сохраненную тему
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+                document.body.classList.remove('light-theme');
+            } else {
+                document.body.classList.add('light-theme');
+                document.body.classList.remove('dark-theme');
+            }
+        });
+    </script>
+</body>
+</html>

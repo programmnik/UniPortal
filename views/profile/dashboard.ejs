@@ -1,0 +1,178 @@
+<!-- Основное содержимое -->
+<div class="content-area">
+    <div class="content-container">
+        <!-- Сетка виджетов -->
+        <div class="widgets-grid">
+            <!-- Левая колонка (2/3 на десктопе) -->
+            <div class="left-column">
+                <!-- Прогресс обучения -->
+                <div class="widget progress-widget">
+                    <h2 class="widget-title">Прогресс обучения</h2>
+                    
+                    <div class="progress-list">
+                        <!-- Прогресс 1 -->
+                        <div class="progress-item">
+                            <div class="progress-header">
+                                <p class="progress-subject">Высшая математика</p>
+                                <p class="progress-percent">75%</p>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 75%;"></div>
+                            </div>
+                            <p class="progress-desc">3/4 модулей завершено</p>
+                        </div>
+                        
+                        <!-- Прогресс 2 -->
+                        <div class="progress-item">
+                            <div class="progress-header">
+                                <p class="progress-subject">Физика</p>
+                                <p class="progress-percent">40%</p>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 40%;"></div>
+                            </div>
+                            <p class="progress-desc">2/5 модулей завершено</p>
+                        </div>
+                        
+                        <!-- Прогресс 3 -->
+                        <div class="progress-item">
+                            <div class="progress-header">
+                                <p class="progress-subject">Программирование</p>
+                                <p class="progress-percent">90%</p>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 90%;"></div>
+                            </div>
+                            <p class="progress-desc">9/10 глав прочитано</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Непрочитанные сообщения -->
+                <div class="widget messages-widget">
+                    <h2 class="widget-title">Непрочитанные сообщения</h2>
+                    
+                    <div class="messages-list">
+                        <!-- Сообщение 1 -->
+                        <div class="message-item">
+                            <div class="message-avatar">И</div>
+                            <div class="message-content">
+                                <div class="message-header">
+                                    <p class="message-sender">Ирина Петрова</p>
+                                    <p class="message-time">1 час назад</p>
+                                </div>
+                                <p class="message-title">Обновление по проекту</p>
+                                <p class="message-preview">Привет! Пожалуйста, отправь последнюю версию черновика...</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Сообщение 2 -->
+                        <div class="message-item">
+                            <div class="message-avatar">Г</div>
+                            <div class="message-content">
+                                <div class="message-header">
+                                    <p class="message-sender">Группа по физике</p>
+                                    <p class="message-time">3 часа назад</p>
+                                </div>
+                                <p class="message-title">Встреча завтра</p>
+                                <p class="message-preview">Всем привет! Напоминаю о нашей встрече завтра в 14:00...</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="/chat" class="widget-link">
+                        Перейти в чат
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Правая колонка (1/3 на десктопе) -->
+            <div class="right-column">
+                <!-- Ближайшие занятия -->
+                <div class="widget classes-widget">
+                    <h2 class="widget-title">Ближайшие занятия</h2>
+                    
+                    <div class="classes-list">
+                        <!-- Занятие 1 -->
+                        <div class="class-item">
+                            <div class="class-time">
+                                <p class="time-start">10:00</p>
+                                <div class="time-line"></div>
+                                <p class="time-end">11:30</p>
+                            </div>
+                            <div class="class-info primary">
+                                <p class="class-name">Физика</p>
+                                <p class="class-teacher">Доц. Сергеев А.В.</p>
+                                <p class="class-location">Аудитория 301, Главный корпус</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Занятие 2 -->
+                        <div class="class-item">
+                            <div class="class-time">
+                                <p class="time-start">13:00</p>
+                                <div class="time-line"></div>
+                                <p class="time-end">14:30</p>
+                            </div>
+                            <div class="class-info">
+                                <p class="class-name">Программирование</p>
+                                <p class="class-teacher">Проф. Иванова Е.П.</p>
+                                <p class="class-location">Онлайн - ссылка в портале</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="/schedule" class="widget-link">
+                        Посмотреть расписание
+                    </a>
+                </div>
+                
+                <!-- Посещаемость -->
+                <div class="widget attendance-widget">
+                    <h2 class="widget-title">Посещаемость</h2>
+                    
+                    <div class="attendance-chart">
+                        <svg class="attendance-svg" viewBox="0 0 36 36">
+                            <circle cx="18" cy="18" r="16" class="attendance-bg"></circle>
+                            <circle cx="18" cy="18" r="16" class="attendance-fill" stroke-dasharray="100" stroke-dashoffset="5"></circle>
+                        </svg>
+                        <div class="attendance-percent">95%</div>
+                    </div>
+                    
+                    <p class="attendance-desc">Общая посещаемость отличная.</p>
+                    <a href="/journal" class="widget-link">Подробнее</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Быстрые действия -->
+        <div class="quick-actions">
+            <h2 class="section-title">Быстрые действия</h2>
+            <div class="actions-grid">
+                <a href="/materials" class="action-card">
+                    <span class="material-symbols-outlined action-icon">book</span>
+                    <p class="action-title">Материалы</p>
+                    <p class="action-desc">Учебные материалы и лекции</p>
+                </a>
+                
+                <a href="/journal" class="action-card">
+                    <span class="material-symbols-outlined action-icon">edit_note</span>
+                    <p class="action-title">Журнал</p>
+                    <p class="action-desc">Посещаемость и оценки</p>
+                </a>
+                
+                <a href="/chat" class="action-card">
+                    <span class="material-symbols-outlined action-icon">chat</span>
+                    <p class="action-title">Чат</p>
+                    <p class="action-desc">Общение с группой</p>
+                </a>
+                
+                <a href="/schedule" class="action-card">
+                    <span class="material-symbols-outlined action-icon">schedule</span>
+                    <p class="action-title">Расписание</p>
+                    <p class="action-desc">Расписание занятий</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

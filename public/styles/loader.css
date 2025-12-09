@@ -1,0 +1,194 @@
+/* From Uiverse.io by alexruix - Modified for UniPortal */
+:root {
+    --loader-primary: #136dec;
+    --loader-secondary: #3b82f6;
+    --loader-tertiary: #60a5fa;
+}
+
+.dark-theme {
+    --loader-primary: #3b82f6;
+    --loader-secondary: #60a5fa;
+    --loader-tertiary: #93c5fd;
+}
+
+/* Page Loader Overlay */
+.page-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--background-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.page-loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.page-loader-content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+/* Custom Loader */
+.uni-loader {
+    width: 80px;
+    height: 50px;
+    position: relative;
+    transform: scale(1.2);
+}
+
+.uni-loader-text {
+    position: absolute;
+    top: 0;
+    right: 18px;
+    padding: 0;
+    margin: 0;
+    color: var(--loader-primary);
+    animation: loader-text 3.5s ease both infinite;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.uni-loader-dot {
+    background-color: var(--loader-primary);
+    border-radius: 50px;
+    display: block;
+    height: 16px;
+    width: 16px;
+    bottom: 0;
+    position: absolute;
+    transform: translateX(64px);
+    animation: loader-dot 3.5s ease both infinite;
+}
+
+.uni-loader-dot::before {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: var(--loader-secondary);
+    border-radius: inherit;
+    animation: loader-dot-inner 3.5s ease both infinite;
+}
+
+.uni-loader-logo {
+    margin-bottom: 1rem;
+}
+
+.uni-loader-logo .logo {
+    justify-content: center;
+    opacity: 0.8;
+}
+
+/* Animations */
+@keyframes loader-text {
+    0% {
+        letter-spacing: 1px;
+        transform: translateX(0px);
+    }
+
+    40% {
+        letter-spacing: 2px;
+        transform: translateX(26px);
+    }
+
+    80% {
+        letter-spacing: 1px;
+        transform: translateX(32px);
+    }
+
+    90% {
+        letter-spacing: 2px;
+        transform: translateX(0px);
+    }
+
+    100% {
+        letter-spacing: 1px;
+        transform: translateX(0px);
+    }
+}
+
+@keyframes loader-dot {
+    0% {
+        width: 16px;
+        transform: translateX(0px);
+    }
+
+    40% {
+        width: 100%;
+        transform: translateX(0px);
+    }
+
+    80% {
+        width: 16px;
+        transform: translateX(64px);
+    }
+
+    90% {
+        width: 100%;
+        transform: translateX(0px);
+    }
+
+    100% {
+        width: 16px;
+        transform: translateX(0px);
+    }
+}
+
+@keyframes loader-dot-inner {
+    0% {
+        transform: translateX(0px);
+        width: 16px;
+    }
+
+    40% {
+        transform: translateX(0%);
+        width: 80%;
+    }
+
+    80% {
+        width: 100%;
+        transform: translateX(0px);
+    }
+
+    90% {
+        width: 80%;
+        transform: translateX(15px);
+    }
+
+    100% {
+        transform: translateX(0px);
+        width: 16px;
+    }
+}
+
+/* Fade in content animation */
+.fade-in {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Theme transition */
+* {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
