@@ -89,11 +89,11 @@
     transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-#theme-toggle:not(:checked) + svg #button {
+#theme-toggle:not(:checked)+svg #button {
     transform: translateX(2.333px);
 }
 
-#theme-toggle:checked + svg #button {
+#theme-toggle:checked+svg #button {
     transform: translateX(28px);
 }
 
@@ -103,7 +103,7 @@
     transition: opacity 0.3s ease;
 }
 
-#theme-toggle:checked + svg #sun {
+#theme-toggle:checked+svg #sun {
     opacity: 0;
 }
 
@@ -112,7 +112,7 @@
     transition: opacity 0.3s ease;
 }
 
-#theme-toggle:checked + svg #moon {
+#theme-toggle:checked+svg #moon {
     opacity: 1;
 }
 
@@ -122,7 +122,7 @@
     transition: opacity 0.3s ease;
 }
 
-#theme-toggle:checked + svg #cloud {
+#theme-toggle:checked+svg #cloud {
     opacity: 0;
 }
 
@@ -131,7 +131,7 @@
     transition: opacity 0.3s ease;
 }
 
-#theme-toggle:checked + svg #stars {
+#theme-toggle:checked+svg #stars {
     opacity: 1;
 }
 
@@ -141,7 +141,7 @@
     transition: fill 0.3s ease;
 }
 
-#theme-toggle:checked + svg #container {
+#theme-toggle:checked+svg #container {
     fill: #2b4360;
 }
 
@@ -154,7 +154,8 @@
 
 .nav-controls .theme-toggle {
     position: relative;
-    top: 2px; /* Микро-регулировка */
+    top: 2px;
+    /* Микро-регулировка */
 }
 
 /* Ноутбук не видит солнце/луну - исправляем в JS */
@@ -311,9 +312,12 @@
 }
 
 @keyframes float {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translateY(0) rotate(0deg);
     }
+
     50% {
         transform: translateY(-20px) rotate(5deg);
     }
@@ -331,22 +335,19 @@
 /* Маска для чата */
 .chat-mask {
     flex: 1;
-    overflow: hidden; /* Отключаем скролл */
+    overflow: hidden;
+    /* Отключаем скролл */
     position: relative;
-    mask-image: linear-gradient(
-        to bottom,
-        transparent 0%,
-        black 10%,
-        black 90%,
-        transparent 100%
-    );
-    -webkit-mask-image: linear-gradient(
-        to bottom,
-        transparent 0%,
-        black 10%,
-        black 90%,
-        transparent 100%
-    );
+    mask-image: linear-gradient(to bottom,
+            transparent 0%,
+            black 10%,
+            black 90%,
+            transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom,
+            transparent 0%,
+            black 10%,
+            black 90%,
+            transparent 100%);
 }
 
 .chat-messages {
@@ -355,9 +356,12 @@
     flex-direction: column;
     gap: 0.75rem;
     height: 100%;
-    justify-content: flex-end; /* Новые сообщения внизу */
-    pointer-events: none; /* Отключаем взаимодействие */
-    user-select: none; /* Запрещаем выделение текста */
+    justify-content: flex-end;
+    /* Новые сообщения внизу */
+    pointer-events: none;
+    /* Отключаем взаимодействие */
+    user-select: none;
+    /* Запрещаем выделение текста */
 }
 
 /* Отключаем скролл везде */
@@ -379,7 +383,8 @@
     background: var(--background-card);
     border-top: 1px solid var(--border-color);
     border-bottom: 1px solid var(--border-color);
-    min-height: 60px; /* Фиксированная высота */
+    min-height: 60px;
+    /* Фиксированная высота */
 }
 
 .typing-indicator {
@@ -423,8 +428,13 @@
     animation: typing 1.4s infinite ease-in-out;
 }
 
-.typing-dots span:nth-child(1) { animation-delay: -0.32s; }
-.typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+.typing-dots span:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.typing-dots span:nth-child(2) {
+    animation-delay: -0.16s;
+}
 
 .typing-text {
     font-size: 0.75rem;
@@ -439,8 +449,10 @@
     border-radius: 20px;
     color: var(--text-tertiary);
     font-size: 0.875rem;
-    pointer-events: none; /* Отключаем клики */
-    user-select: none; /* Запрещаем выделение */
+    pointer-events: none;
+    /* Отключаем клики */
+    user-select: none;
+    /* Запрещаем выделение */
 }
 
 /* Message styles */
@@ -533,6 +545,7 @@
         opacity: 0;
         transform: translateY(-5px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -540,13 +553,17 @@
 }
 
 @keyframes typing {
-    0%, 60%, 100% { 
-        transform: translateY(0); 
-        opacity: 0.6; 
+
+    0%,
+    60%,
+    100% {
+        transform: translateY(0);
+        opacity: 0.6;
     }
-    30% { 
-        transform: translateY(-4px); 
-        opacity: 1; 
+
+    30% {
+        transform: translateY(-4px);
+        opacity: 1;
     }
 }
 
@@ -727,8 +744,13 @@
     animation: typing 1.4s infinite ease-in-out;
 }
 
-.typing-dots span:nth-child(1) { animation-delay: -0.32s; }
-.typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+.typing-dots span:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.typing-dots span:nth-child(2) {
+    animation-delay: -0.16s;
+}
 
 .typing-text {
     font-size: 0.75rem;
@@ -764,6 +786,7 @@
         opacity: 0;
         transform: translateY(-5px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -771,13 +794,17 @@
 }
 
 @keyframes typing {
-    0%, 60%, 100% { 
-        transform: translateY(0); 
-        opacity: 0.6; 
+
+    0%,
+    60%,
+    100% {
+        transform: translateY(0);
+        opacity: 0.6;
     }
-    30% { 
-        transform: translateY(-4px); 
-        opacity: 1; 
+
+    30% {
+        transform: translateY(-4px);
+        opacity: 1;
     }
 }
 
@@ -802,6 +829,7 @@
         opacity: 0;
         transform: translateX(-10px);
     }
+
     to {
         opacity: 1;
         transform: translateX(0);
@@ -817,6 +845,7 @@
         opacity: 0;
         transform: translateX(10px);
     }
+
     to {
         opacity: 1;
         transform: translateX(0);
@@ -847,12 +876,27 @@
     animation: typing 1.4s infinite ease-in-out;
 }
 
-.typing-dots span:nth-child(1) { animation-delay: -0.32s; }
-.typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+.typing-dots span:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.typing-dots span:nth-child(2) {
+    animation-delay: -0.16s;
+}
 
 @keyframes typing {
-    0%, 60%, 100% { transform: translateY(0); opacity: 0.6; }
-    30% { transform: translateY(-4px); opacity: 1; }
+
+    0%,
+    60%,
+    100% {
+        transform: translateY(0);
+        opacity: 0.6;
+    }
+
+    30% {
+        transform: translateY(-4px);
+        opacity: 1;
+    }
 }
 
 @keyframes messageAppear {
@@ -860,6 +904,7 @@
         opacity: 0;
         transform: translateY(10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -1111,12 +1156,25 @@
     animation: typing 1.4s infinite ease-in-out;
 }
 
-.typing-dots span:nth-child(1) { animation-delay: -0.32s; }
-.typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+.typing-dots span:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.typing-dots span:nth-child(2) {
+    animation-delay: -0.16s;
+}
 
 @keyframes typing {
-    0%, 60%, 100% { transform: translateY(0); }
-    30% { transform: translateY(-4px); }
+
+    0%,
+    60%,
+    100% {
+        transform: translateY(0);
+    }
+
+    30% {
+        transform: translateY(-4px);
+    }
 }
 
 /* Features */
@@ -1300,6 +1358,8 @@
     background: var(--background-card);
     border-top: 1px solid var(--border-color);
     padding: 4rem 0 2rem;
+    margin: 30px;
+    border-radius: 50px;
 }
 
 .footer-content {
@@ -1349,31 +1409,31 @@
     .nav-menu {
         display: none;
     }
-    
+
     .mobile-menu-toggle {
         display: flex;
     }
-    
+
     .hero-title {
         font-size: 2.5rem;
     }
-    
+
     .hero-actions {
         flex-direction: column;
         align-items: center;
     }
-    
+
     .creator-card {
         grid-template-columns: 1fr;
         gap: 2rem;
         text-align: center;
     }
-    
+
     .footer-content {
         grid-template-columns: 1fr;
         gap: 3rem;
     }
-    
+
     .footer-links {
         grid-template-columns: 1fr;
     }

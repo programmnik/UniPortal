@@ -18,12 +18,23 @@
   "license": "ISC",
   "author": "Nikita Shmatko",
   "type": "commonjs",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "ejs": "^3.1.10",
     "express": "^5.2.1"
+  },
+  "todo-tree.general.tags": [
+    "TODO:",
+    "FIXME:",
+    "HACK:",
+    "BUG:",
+    "NOTE:"
+  ],
+  "todo-tree.highlights.defaultHighlight": {
+    "foreground": "#ff0000",
+    "fontStyle": "bold"
   }
 }

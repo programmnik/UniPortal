@@ -1,15 +1,32 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UniPortal - <%= title %></title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles/dashboard.css">
+    <title>UniPortal - <%= title %>
+    </title>
+    <link rel="stylesheet" href="styles/general/roots.css">
+    <link rel="stylesheet" href="styles/general/normalize.css">
+    <link rel="stylesheet" href="styles/general/general.css">
+    <% if(basePath=='/dashboard' ) { %>
+        <link rel="stylesheet" href="styles/dashboard.css">
+    <% } else if(basePath=='/profile' ) { %>
+        <link rel="stylesheet" href="styles/profile.css">
+    <% } else if(basePath=='/materials' ) { %>
+        <link rel="stylesheet" href="styles/materials.css">
+    <% } %>
     <script src="scripts/theme-toggle.js"></script>
+    <!-- <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script> -->
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
+
+
 </head>
+
 <body class="font-display bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-200 light-theme">
     <!-- Контейнер приложения -->
     <div class="dashboard-container">
@@ -22,40 +39,40 @@
                     <span class="logo-text">UniPortal</span>
                 </div>
             </div>
-            
+
             <!-- Навигационные ссылки -->
             <div class="nav-content">
                 <div class="nav-links">
-                    <a href="/dashboard" class="nav-link">
+                    <a href="/dashboard" class="nav-link <% if(basePath == '/dashboard') { %> active <% } %>">
                         <span class="material-symbols-outlined nav-icon">dashboard</span>
                         <span class="nav-text">Панель управления</span>
                     </a>
-                    <a href="/materials" class="nav-link active">
+                    <a href="/materials" class="nav-link <% if(basePath == '/materials') { %> active <% } %>">
                         <span class="material-symbols-outlined nav-icon">book</span>
                         <span class="nav-text">Материалы</span>
                     </a>
-                    <a href="/calendar" class="nav-link">
+                    <a href="/calendar" class="nav-link <% if(basePath == '/calendar') { %> active <% } %>">
                         <span class="material-symbols-outlined nav-icon">calendar_month</span>
                         <span class="nav-text">Календарь</span>
                     </a>
-                    <a href="/schedule" class="nav-link">
+                    <a href="/schedule" class="nav-link <% if(basePath == '/schedule') { %> active <% } %>">
                         <span class="material-symbols-outlined nav-icon">schedule</span>
                         <span class="nav-text">Расписание</span>
                     </a>
-                    <a href="/chat" class="nav-link">
+                    <a href="/chat" class="nav-link <% if(basePath == '/chat') { %> active <% } %>">
                         <span class="material-symbols-outlined nav-icon">chat</span>
                         <span class="nav-text">Чат</span>
                     </a>
-                    <a href="/journal" class="nav-link">
+                    <a href="/journal" class="nav-link <% if(basePath == '/journal') { %> active <% } %>">
                         <span class="material-symbols-outlined nav-icon">edit_note</span>
                         <span class="nav-text">Журнал</span>
                     </a>
-                    <a href="/information" class="nav-link">
+                    <a href="/information" class="nav-link <% if(basePath == '/information') { %> active <% } %>">
                         <span class="material-symbols-outlined nav-icon">info</span>
                         <span class="nav-text">Информация</span>
                     </a>
                 </div>
-                
+
                 <!-- Профиль пользователя -->
                 <div class="user-profile">
                     <div class="profile-content">
@@ -71,7 +88,7 @@
                 </div>
             </div>
         </nav>
-        
+
         <!-- Мобильная навигация (скрытое меню) -->
         <nav id="mobile-nav" class="mobile-nav">
             <!-- Логотип и кнопка закрытия -->
@@ -84,7 +101,7 @@
                     <span class="material-symbols-outlined">close</span>
                 </button>
             </div>
-            
+
             <!-- Навигационные ссылки -->
             <div class="mobile-nav-content">
                 <div class="nav-links">
@@ -117,7 +134,7 @@
                         <span class="nav-text">Информация</span>
                     </a>
                 </div>
-                
+
                 <!-- Профиль пользователя -->
                 <div class="mobile-user-profile">
                     <div class="profile-content">
@@ -130,10 +147,10 @@
                 </div>
             </div>
         </nav>
-        
+
         <!-- Затемнение для мобильного меню -->
         <div id="mobile-nav-overlay" class="mobile-nav-overlay"></div>
-        
+
         <!-- Основной контент -->
         <main class="main-content">
             <!-- Верхняя панель (для мобильных) -->
@@ -145,11 +162,19 @@
                             <span class="material-symbols-outlined menu-icon">menu</span>
                         </button>
                         <div class="header-titles">
-                            <h1 class="page-title"><%= title %></h1>
-                            <p class="page-subtitle">Добро пожаловать, <span class="user-profile-name"></span>! Вот ваша сводка на сегодня.</p>
+                            <h1 class="page-title">
+                                <%= title %>
+                            </h1>
+                            <% if(basePath=='/dashboard' ) { %>
+                                <p class="page-subtitle">
+                                    Добро пожаловать,
+                                    <span class="user-profile-name"></span>
+                                    ! Вот ваша сводка на сегодня.
+                                </p>
+                            <% } %>
                         </div>
                     </div>
-                    
+
                     <!-- Правая часть: поиск, уведомления, профиль -->
                     <div class="header-right">
                         <!-- Поиск (скрыт на мобильных) -->
@@ -157,7 +182,7 @@
                             <span class="material-symbols-outlined search-icon">search</span>
                             <input type="text" placeholder="Поиск курсов, материалов..." class="search-input">
                         </div>
-                        
+
                         <!-- Кнопка уведомлений -->
                         <button class="notification-btn">
                             <span class="material-symbols-outlined">notifications</span>
@@ -166,32 +191,49 @@
                                 <span class="notification-dot"></span>
                             </span>
                         </button>
-                        
+
                         <!-- Профиль (только аватар на мобильных) -->
                         <a href="/profile" class="profile-btn">
-                            <div class="mobile-avatar avatar-text user-profile-name-fletter"></div>
+                            <div class="mobile-avatar user-profile-name-fletter"></div>
                             <span class="profile-name-text user-profile-name"></span>
                         </a>
                     </div>
                 </div>
-                
                 <!-- Описание для мобильных -->
-                <p class="mobile-subtitle">Добро пожаловать, <span class="user-profile-name"></span>! Вот ваша сводка на сегодня.</p>
+                <% if(basePath=='/dashboard' ) { %>
+                    <p class="mobile-subtitle">
+                        Добро пожаловать,
+                        <span class="user-profile-name"></span>
+                        ! Вот ваша сводка на сегодня.
+                    </p>
+                    <% } %>
             </header>
 
-            <% if(basePath == '/dashboard') { %>
-            <%- include('profile/dashboard') %>
+            <% if(basePath=='/dashboard' ) { %>
+                <%- include('profile/dashboard') %>
+            <% } else if(basePath=='/profile' ) { %>
+                <%- include('profile/profile_settings/pset1') %>
+            <% } else if(basePath=='/materials' ) { %>
+                <%- include('profile/materials') %>
             <% } %>
-            
+
             <!-- Футер -->
             <footer class="main-footer">
-                <p class="footer-text">© 2025 UniPortal. Академическая платформа.</p>
+                <p class="footer-text">
+                    © 2026 "NiqVIS UniPortal"
+                    <br>Академическая платворма для студентов
+                </p>
             </footer>
         </main>
         <!-- Кнопка переключения темы -->
         <button id="theme-toggle-button" class="theme-toggle">
             <span class="material-symbols-outlined theme-icon">dark_mode</span>
         </button>
+
+        <% if(basePath=='/profile' ) { %>
+            <%- include('profile/profile_settings/pset2') %>
+        <% } %>
+
     </div>
 
     <script src="scripts/users.js"></script>
@@ -201,7 +243,11 @@
             checkAuth("/index");
         });
     </script>
+    <% if(basePath=='/profile' ) { %>
+        <script src="scripts/profile.js"></script>
+    <% } %>
     <script src="scripts/per-main.js"></script>
 
 </body>
+
 </html>
