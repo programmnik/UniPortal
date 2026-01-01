@@ -1,0 +1,40 @@
+{
+  "name": "uniportal",
+  "version": "1.0.0",
+  "description": "UniPortal - закрытая академическая платформа для организации учебного процесса. Система предоставляет структурированные материалы, инструменты коммуникации и автоматизацию рутинных задач для студентов",
+  "keywords": [
+    "UniPortal",
+    "академическая",
+    "платформа"
+  ],
+  "homepage": "https://github.com/programmnik/UniPortal#readme",
+  "bugs": {
+    "url": "https://github.com/programmnik/UniPortal/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/programmnik/UniPortal.git"
+  },
+  "license": "ISC",
+  "author": "Nikita Shmatko",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^5.2.1"
+  },
+  "todo-tree.general.tags": [
+    "TODO:",
+    "FIXME:",
+    "HACK:",
+    "BUG:",
+    "NOTE:"
+  ],
+  "todo-tree.highlights.defaultHighlight": {
+    "foreground": "#ff0000",
+    "fontStyle": "bold"
+  }
+}

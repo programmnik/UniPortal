@@ -1,0 +1,13 @@
+CREATE TABLE IF NOT EXISTS users_full (
+    email TEXT PRIMARY KEY,
+    nickname TEXT NOT NULL UNIQUE,
+    full_name TEXT,
+    avatar TEXT,
+    theme TEXT DEFAULT 'light',
+    notifications_enabled INTEGER DEFAULT 1,
+    bio TEXT,
+    settings_json TEXT DEFAULT '{}',
+    FOREIGN KEY (email) REFERENCES users_quick(email) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_nickname ON users_full(nickname);

@@ -1,0 +1,519 @@
+/* ==========================================================================
+   Файл нормализации CSS (Modern Normalize)
+   Цель: Сделать элементы более согласованными во всех браузерах
+   ========================================================================== */
+
+/* Document
+   ========================================================================== */
+
+/**
+ * 1. Корректная высота строки во всех браузерах
+ * 2. Предотвращение изменений размера шрифта после изменения ориентации в iOS
+ * 3. Улучшение рендеринга текста
+ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    line-height: 1.15;
+    /* 1 */
+    -webkit-text-size-adjust: 100%;
+    /* 2 */
+    -moz-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    /* 3 */
+}
+
+/* Sections
+   ========================================================================== */
+
+/**
+ * Убрать margin у body во всех браузерах
+ */
+
+body {
+    font-family: 'Lexend', sans-serif;
+    margin: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/**
+ * Сделать элементы section и article согласованными в IE
+ */
+
+main {
+    display: block;
+}
+
+/**
+ * Исправить размер шрифта и margin у заголовков
+ */
+
+h1 {
+    font-size: 2em;
+    margin: 0.67em 0;
+}
+
+/* Grouping content
+   ========================================================================== */
+
+/**
+ * 1. Добавить правильный box sizing в Firefox
+ * 2. Показать overflow в Edge и IE
+ */
+
+hr {
+    box-sizing: content-box;
+    /* 1 */
+    height: 0;
+    /* 1 */
+    overflow: visible;
+    /* 2 */
+}
+
+/**
+ * 1. Исправить наследование и масштабирование шрифта во всех браузерах
+ * 2. Исправить необычный размер шрифта во всех браузерах
+ */
+
+pre {
+    font-family: monospace, monospace;
+    /* 1 */
+    font-size: 1em;
+    /* 2 */
+}
+
+/* Text-level semantics
+   ========================================================================== */
+
+/**
+ * Убрать серый фон у активных ссылок в IE 10
+ */
+
+a {
+    background-color: transparent;
+}
+
+/**
+ * 1. Убрать границу у изображений внутри ссылок в IE 10
+ * 2. Убрать зазор под изображениями
+ */
+
+img {
+    border-style: none;
+    /* 1 */
+    vertical-align: middle;
+    /* 2 */
+    max-width: 100%;
+    height: auto;
+}
+
+/**
+ * Исправить стили для элементов формы
+ */
+
+button,
+input,
+optgroup,
+select,
+textarea {
+    font-family: inherit;
+    /* 1 */
+    font-size: 100%;
+    /* 1 */
+    line-height: 1.15;
+    /* 1 */
+    margin: 0;
+    /* 2 */
+}
+
+/**
+ * Показать overflow в IE и Edge
+ */
+
+button,
+input {
+    overflow: visible;
+}
+
+/**
+ * Убрать наследование text-transform в Edge, Firefox и IE
+ */
+
+button,
+select {
+    text-transform: none;
+}
+
+/**
+ * Исправить невозможность стилизовать кликабельные типы в iOS и Safari
+ */
+
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+    -webkit-appearance: button;
+    appearance: button;
+}
+
+/**
+ * Убрать внутреннюю границу и padding в Firefox
+ */
+
+button::-moz-focus-inner,
+[type="button"]::-moz-focus-inner,
+[type="reset"]::-moz-focus-inner,
+[type="submit"]::-moz-focus-inner {
+    border-style: none;
+    padding: 0;
+}
+
+/**
+ * Восстановить стили фокуса, сброшенные предыдущим правилом
+ */
+
+button:-moz-focusring,
+[type="button"]:-moz-focusring,
+[type="reset"]:-moz-focusring,
+[type="submit"]:-moz-focusring {
+    outline: 1px dotted ButtonText;
+}
+
+/**
+ * Убрать padding в Firefox
+ */
+
+fieldset {
+    padding: 0.35em 0.75em 0.625em;
+}
+
+/**
+ * 1. Исправить перенос текста в Edge и IE
+ * 2. Исправить наследование цвета от fieldset в IE
+ */
+
+legend {
+    box-sizing: border-box;
+    /* 1 */
+    color: inherit;
+    /* 2 */
+    display: table;
+    /* 1 */
+    max-width: 100%;
+    /* 1 */
+    padding: 0;
+    /* 3 */
+    white-space: normal;
+    /* 1 */
+}
+
+/**
+ * Добавить правильное вертикальное выравнивание в Chrome, Firefox и Opera
+ */
+
+progress {
+    vertical-align: baseline;
+}
+
+/**
+ * Убрать вертикальный скролл в IE 10+
+ */
+
+textarea {
+    overflow: auto;
+    resize: vertical;
+}
+
+/**
+ * 1. Добавить правильный box sizing в IE 10
+ * 2. Убрать padding в IE 10
+ */
+
+[type="checkbox"],
+[type="radio"] {
+    box-sizing: border-box;
+    /* 1 */
+    padding: 0;
+    /* 2 */
+}
+
+/**
+ * Исправить стиль курсора для кнопок увеличения и уменьшения в Chrome
+ */
+
+[type="number"]::-webkit-inner-spin-button,
+[type="number"]::-webkit-outer-spin-button {
+    height: auto;
+}
+
+/**
+ * 1. Исправить странный внешний вид в Chrome и Safari
+ * 2. Исправить стиль outline в Safari
+ */
+
+[type="search"] {
+    -webkit-appearance: textfield;
+    /* 1 */
+    appearance: textfield;
+    outline-offset: -2px;
+    /* 2 */
+}
+
+/**
+ * Убрать внутреннюю padding в Chrome и Safari на macOS
+ */
+
+[type="search"]::-webkit-search-decoration {
+    -webkit-appearance: none;
+}
+
+/**
+ * Исправить стиль placeholder в Firefox
+ */
+
+::-webkit-input-placeholder {
+    color: inherit;
+    opacity: 0.54;
+}
+
+::-moz-placeholder {
+    color: inherit;
+    opacity: 0.54;
+}
+
+:-ms-input-placeholder {
+    color: inherit;
+    opacity: 0.54;
+}
+
+::-ms-input-placeholder {
+    color: inherit;
+    opacity: 0.54;
+}
+
+::placeholder {
+    color: inherit;
+    opacity: 0.54;
+}
+
+/**
+ * Исправить нестандартный стиль для кнопок в Safari
+ */
+
+::-webkit-file-upload-button {
+    -webkit-appearance: button;
+    font: inherit;
+}
+
+/* Interactive
+   ========================================================================== */
+
+/*
+ * Добавить правильное отображение в Edge, IE 10+ и Firefox
+ */
+
+details {
+    display: block;
+}
+
+/*
+ * Добавить правильное отображение во всех браузерах
+ */
+
+summary {
+    display: list-item;
+}
+
+/* Misc
+   ========================================================================== */
+
+/**
+ * Добавить правильное отображение в IE 10+
+ */
+
+template {
+    display: none;
+}
+
+/**
+ * Добавить правильное отображение в IE 10
+ */
+
+[hidden] {
+    display: none;
+}
+
+/* ==========================================================================
+   Дополнительные стили нормализации (опционально)
+   ========================================================================== */
+
+/**
+ * Box sizing reset
+ */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/**
+ * Убрать margin и padding у всех элементов
+ * (раскомментировать если нужно)
+ */
+
+/*
+* {
+  margin: 0;
+  padding: 0;
+}
+*/
+
+/**
+ * Установить базовые размеры шрифта
+ */
+
+html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/**
+ * Улучшение рендеринга текста
+ */
+
+body {
+    font-feature-settings: 'kern' 1;
+    font-kerning: normal;
+    text-rendering: optimizeLegibility;
+}
+
+/**
+ * Сброс стилей для списков
+ */
+
+ul,
+ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/**
+ * Ссылки без подчеркивания
+ */
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/**
+ * Кнопки без стилей по умолчанию
+ */
+
+button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
+}
+
+/**
+ * Таблицы без промежутков между ячейками
+ */
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/**
+ * Отключение анимаций для пользователей, которые их предпочитают не видеть
+ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/**
+ * Сброс стилей для инлайновых элементов
+ */
+
+b,
+strong {
+    font-weight: bolder;
+}
+
+small {
+    font-size: 80%;
+}
+
+sub,
+sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sub {
+    bottom: -0.25em;
+}
+
+sup {
+    top: -0.5em;
+}
+
+/**
+ * Сброс для figure
+ */
+
+figure {
+    margin: 0;
+}
+
+/**
+ * Для SVG
+ */
+
+svg {
+    fill: currentColor;
+}
+
+/**
+ * Для кода
+ */
+
+code,
+kbd,
+samp {
+    font-family: monospace, monospace;
+    font-size: 1em;
+}
+
+/**
+ * Для адреса
+ */
+
+address {
+    font-style: normal;
+}

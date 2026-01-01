@@ -1,0 +1,103 @@
+:root {
+    --primary-color: #136dec;
+    --primary-light: rgba(19, 109, 236, 0.1);
+    --primary-dark: rgba(19, 109, 236, 0.2);
+    --background-light: #f6f7f8;
+    --background-dark: #101822;
+    --white: #ffffff;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-400: #9ca3af;
+    --gray-500: #6b7280;
+    --gray-600: #4b5563;
+    --gray-700: #374151;
+    --gray-800: #1f2937;
+    --gray-900: #111827;
+    --border-light: var(--gray-200);
+    --border-dark: var(--gray-800);
+    --text-light: var(--gray-800);
+    --text-dark: var(--gray-200);
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-full: 9999px;
+
+    --primary-color: #136dec;
+    --primary-light: rgba(19, 109, 236, 0.1);
+    --primary-dark: rgba(19, 109, 236, 0.2);
+    --background-light: #f6f7f8;
+    --background-dark: #101822;
+    --white: #ffffff;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-400: #9ca3af;
+    --gray-500: #6b7280;
+    --gray-600: #4b5563;
+    --gray-700: #374151;
+    --gray-800: #1f2937;
+    --gray-900: #111827;
+    --border-light: var(--gray-200);
+    --border-dark: var(--gray-800);
+    --text-light: var(--gray-800);
+    --text-dark: var(--gray-200);
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-full: 9999px;
+}
+
+.dark-theme {
+    --background-color: var(--background-dark);
+    --text-color: var(--text-dark);
+    --text-color-opposite: var(--text-light);
+    --border-color: var(--border-dark);
+    --border-btn: var(--gray-200);
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --hover-bg: rgba(255, 255, 255, 0.1);
+    transition: --border-color 0.3s ease, color 0.3s ease;
+}
+
+.light-theme {
+    --background-color: var(--background-light);
+    --text-color: var(--text-light);
+    --text-color-opposite: var(--text-dark);
+    --border-color: var(--border-light);
+    --border-btn: var(--gray-800);
+    --card-bg: var(--white);
+    --hover-bg: var(--gray-200);
+    transition: --border-color 0.3s ease, color 0.3s ease;
+}
+
+.dark {
+    --background-color: var(--background-dark);
+    --text-color: var(--text-dark);
+    --text-color-opposite: var(--text-light);
+    --border-color: var(--border-dark);
+    --border-btn: var(--gray-200);
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --hover-bg: rgba(255, 255, 255, 0.1);
+    transition: --border-color 0.3s ease, color 0.3s ease;
+}
+
+.light {
+    --background-color: var(--background-light);
+    --text-color: var(--text-light);
+    --text-color-opposite: var(--text-dark);
+    --border-color: var(--border-light);
+    --border-btn: var(--gray-800);
+    --card-bg: var(--white);
+    --hover-bg: var(--gray-200);
+    transition: --border-color 0.3s ease, color 0.3s ease;
+}

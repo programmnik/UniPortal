@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS groups_quick (
+    user_email TEXT,
+    group_id TEXT NOT NULL,
+    PRIMARY KEY (user_email, group_id),
+    FOREIGN KEY (user_email) REFERENCES users_quick(email) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_user_group ON groups_quick(user_email, group_id);
