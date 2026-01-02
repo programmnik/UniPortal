@@ -1,6 +1,12 @@
-// import Dashboard from "./views/Dashboard.js";
-// import Posts from "./views/Posts.js";
-// import Settings from "./views/Settings.js";
+import Dashboard from './views/Dashboard.js';
+import Materials from './views/Materials.js';
+import Calendar from './views/Calendar.js';
+import Schedule from './views/Schedule.js';
+import Chat from './views/Chat.js';
+import Journal from './views/Journal.js';
+import Information from './views/Information.js';
+import Profile from './views/Profile.js';
+import routes from '../../roots/roots.json' with { type: 'json' };
 
 const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
 
@@ -19,13 +25,6 @@ const navigateTo = url => {
 };
 
 const router = async () => {
-    const routes = [
-        // { path: "/", view: Dashboard },
-        // { path: "/posts", view: Posts },
-        // { path: "/posts/:id/:dcode", view: Posts },
-        // { path: "/settings", view: Settings },
-    ];
-
     //Test each route for potantion match
     const potantialMatches = routes.map(route => {
         return {
@@ -36,27 +35,29 @@ const router = async () => {
 
     let match = potantialMatches.find(potantialMatch => potantialMatch.result !== null);
 
-    if (!match) {
-        match = {
-            route: routes[0],
-            result: [location.pathname]
-        };
-    }
+    if (!match) match = { route: routes[0], result: [location.pathname] };
 
-    const view = new match.route.view(getParams(match));
+    
+    // const view = new match.route.view(getParams(match));
 
-    document.querySelector("#app").innerHTML = await view.getHtml();
+    // document.querySelector("#app").innerHTML = await view.getHtml();
 };
 
 window.addEventListener("popstate", router);
 
 document.addEventListener("DOMContentLoaded", () => {
-    document.body.addEventListener("click", e => {
-        if (e.target.matches("[data-link]")) {
-            e.preventDefault();
-            navigateTo(e.target.href);
+    document.addEventListener("click", e => {
+        let target = e.target;
+        while (target && target !== document) {
+            if (target.matches("[data-link]")) {
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                navigateTo(target.href);
+                return false;
+            }
+            target = target.parentElement;
         }
-    });
-    router();
+    }, true); 
 });
 

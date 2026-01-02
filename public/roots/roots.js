@@ -1,0 +1,76 @@
+const routes = [
+    {
+        path: "/dashboard", 
+        view: "Dashboard", 
+        variables: 
+        {
+            basePath: "/dashboard",
+            title: "Панель управления"
+        }
+    },
+    {
+        path: "/materials", 
+        view: "Materials", 
+        variables: 
+        {
+            basePath: "/materials",
+            title: "Материалы"
+        }
+    },
+    {
+        path: "/calendar", 
+        view: "Calendar", 
+        variables: 
+        {
+            basePath: "/calendar",
+            title: "Календарь"
+        }
+    },
+    {
+        path: "/schedule", 
+        view: "Schedule", 
+        variables: 
+        {
+            basePath: "/schedule",
+            title: "Расписание"
+        }
+    },
+    {
+        path: "/chat", 
+        view: "Chat", 
+        variables: 
+        {
+            basePath: "/chat",
+            title: "Чат"
+        }
+    },
+    {
+        path: "/journal", 
+        view: "Journal", 
+        variables: 
+        {
+            basePath: "/journal",
+            title: "Журнал"
+        }
+    },
+    {
+        path: "/information", 
+        view: "Information", 
+        variables: 
+        {
+            basePath: "/information",
+            title: "Информация"
+        }
+    },
+    {
+        path: "/profile", 
+        view: "Profile", 
+        variables: 
+        {
+            basePath: "/profile",
+            title: "Профиль и настройки"
+        }
+    }
+]
+
+export default routes;

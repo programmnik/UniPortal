@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UniPortal - <%= title %>
-    </title>
+    <title>UniPortal - <%= title %></title>
     <link rel="stylesheet" href="styles/general/roots.css">
     <link rel="stylesheet" href="styles/general/normalize.css">
     <link rel="stylesheet" href="styles/general/general.css">
@@ -43,31 +42,31 @@
             <!-- Навигационные ссылки -->
             <div class="nav-content">
                 <div class="nav-links">
-                    <a href="/dashboard" class="nav-link <% if(basePath == '/dashboard') { %> active <% } %>">
+                    <a href="/dashboard" class="nav-link <% if(basePath == '/dashboard') { %> active <% } %>" data-link>
                         <span class="material-symbols-outlined nav-icon">dashboard</span>
                         <span class="nav-text">Панель управления</span>
                     </a>
-                    <a href="/materials" class="nav-link <% if(basePath == '/materials') { %> active <% } %>">
+                    <a href="/materials" class="nav-link <% if(basePath == '/materials') { %> active <% } %>" data-link>
                         <span class="material-symbols-outlined nav-icon">book</span>
                         <span class="nav-text">Материалы</span>
                     </a>
-                    <a href="/calendar" class="nav-link <% if(basePath == '/calendar') { %> active <% } %>">
+                    <a href="/calendar" class="nav-link <% if(basePath == '/calendar') { %> active <% } %>" data-link>
                         <span class="material-symbols-outlined nav-icon">calendar_month</span>
                         <span class="nav-text">Календарь</span>
                     </a>
-                    <a href="/schedule" class="nav-link <% if(basePath == '/schedule') { %> active <% } %>">
+                    <a href="/schedule" class="nav-link <% if(basePath == '/schedule') { %> active <% } %>" data-link>
                         <span class="material-symbols-outlined nav-icon">schedule</span>
                         <span class="nav-text">Расписание</span>
                     </a>
-                    <a href="/chat" class="nav-link <% if(basePath == '/chat') { %> active <% } %>">
+                    <a href="/chat" class="nav-link <% if(basePath == '/chat') { %> active <% } %>" data-link>
                         <span class="material-symbols-outlined nav-icon">chat</span>
                         <span class="nav-text">Чат</span>
                     </a>
-                    <a href="/journal" class="nav-link <% if(basePath == '/journal') { %> active <% } %>">
+                    <a href="/journal" class="nav-link <% if(basePath == '/journal') { %> active <% } %>" data-link>
                         <span class="material-symbols-outlined nav-icon">edit_note</span>
                         <span class="nav-text">Журнал</span>
                     </a>
-                    <a href="/information" class="nav-link <% if(basePath == '/information') { %> active <% } %>">
+                    <a href="/information" class="nav-link <% if(basePath == '/information') { %> active <% } %>" data-link>
                         <span class="material-symbols-outlined nav-icon">info</span>
                         <span class="nav-text">Информация</span>
                     </a>
@@ -81,7 +80,7 @@
                             <p class="profile-name user-profile-name"></p>
                             <p class="profile-email">студент@университет.ru</p>
                         </div>
-                        <a href="/profile" class="profile-link">
+                        <a href="/profile" class="profile-link" data-link>
                             <span class="material-symbols-outlined">person</span>
                         </a>
                     </div>
@@ -162,9 +161,7 @@
                             <span class="material-symbols-outlined menu-icon">menu</span>
                         </button>
                         <div class="header-titles">
-                            <h1 class="page-title">
-                                <%= title %>
-                            </h1>
+                            <h1 class="page-title"><%= title %></h1>
                             <% if(basePath=='/dashboard' ) { %>
                                 <p class="page-subtitle">
                                     Добро пожаловать,
@@ -206,7 +203,7 @@
                         <span class="user-profile-name"></span>
                         ! Вот ваша сводка на сегодня.
                     </p>
-                    <% } %>
+                <% } %>
             </header>
 
             <% if(basePath=='/dashboard' ) { %>
@@ -236,12 +233,12 @@
 
     </div>
 
+    
     <script src="scripts/users.js"></script>
     <script src="scripts/session.js"></script>
+    <script type="module" src="scripts/spa/spa.js"></script>
     <script>
-        window.addEventListener('load', () => {
-            checkAuth("/index");
-        });
+        window.addEventListener('load', () => checkAuth("/index"));
     </script>
     <% if(basePath=='/profile' ) { %>
         <script src="scripts/profile.js"></script>
